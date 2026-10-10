@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kreo3D - Magiczny świat zabawek 3D</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -1015,14 +1015,13 @@
                 <div class="hero-text">
                     <h1>Magiczny świat<br>zabawek 3D od<br>Kreo3D.pl ✨</h1>
                     <p>Kolorowe, bezpieczne i pełne radości — nasze zabawki 3D tworzymy z myślą o uśmiechu każdego dziecka!</p>
-                    <button class="hero-btn" onclick="openProduct(0)">Zobacz kolekcję 🎁</button>
+                    <button class="hero-btn" >Zobacz kolekcję 🎁</button>
                 </div>
                 <div class="hero-image-box" onclick="openProduct(0)">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D Kreo3D">
+                    <img src="keyrambit - czarny.png" alt="Zabawki 3D Kreo3D">
                 </div>
             </div>
         </section>
-
         <!-- Sekcja Bestsellery z czarnym KeyRambitem i poprawnym zdjęciem -->
         <section class="bestsellers-section">
             <div class="badge-top">⭐ TOP SPRZEDAŻY</div>
@@ -1032,7 +1031,7 @@
             <div class="products-grid">
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80" alt="KeyRambit - Czarny" onclick="openProduct(13)">
+                    <img src="keyrambit - czarny.png" alt="KeyRambit - Czarny" onclick="openProduct(13)">
                     <div>
                         <h3 onclick="openProduct(13)">KeyRambit - Czarny</h3>
                         <div class="product-price">15,00 zł</div>
@@ -1042,30 +1041,30 @@
 
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80" alt="KeyRambit" onclick="openProduct(0)">
+                    <img src="kukirin g2.png" alt="kukirin g2" onclick="openProduct(0)">
                     <div>
-                        <h3 onclick="openProduct(0)">KeyRambit - Midnight city</h3>
-                        <div class="product-price">15,00 zł</div>
+                        <h3 onclick="openProduct(0)">Kukirin g2</h3>
+                        <div class="product-price">20,00 zł</div>
                     </div>
                     <button class="product-btn" onclick="openProduct(0)">🛒 Zobacz produkt</button>
                 </div>
 
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
-                    <img src="https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=500&q=80" alt="Czaszka T-Rex" onclick="openProduct(4)">
+                    <img src="mieczyk blue.png" alt="Meczyk z minecraft" onclick="openProduct(4)">
                     <div>
-                        <h3 onclick="openProduct(4)">Czaszka T-Rex V2 - Carnival</h3>
-                        <div class="product-price">16,00 zł</div>
+                        <h3 onclick="openProduct(4)">Meczyk minecraft - niebieski</h3>
+                        <div class="product-price">9.99 zł</div>
                     </div>
                     <button class="product-btn" onclick="openProduct(4)">🛒 Zobacz produkt</button>
                 </div>
 
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
-                    <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=500&q=80" alt="Kukaronik" onclick="openProduct(12)">
+                    <img src="kolko zabawka.png" alt="Kukaronik" onclick="openProduct(12)">
                     <div>
-                        <h3 onclick="openProduct(12)">KUKARONIK - Zielony świecący w ciemności</h3>
-                        <div class="product-price">15,00 zł</div>
+                        <h3 onclick="openProduct(12)">Złoty Spiner 3D</h3>
+                        <div class="product-price">13.00 zł</div>
                     </div>
                     <button class="product-btn" onclick="openProduct(12)">🛒 Zobacz produkt</button>
                 </div>
@@ -1093,7 +1092,6 @@
                 </div>
             </div>
 
-            <div class="products-grid" id="search-results-grid"></div>
         </section>
     </div>
 
@@ -1156,12 +1154,12 @@
 
     <script>
         const products = [
-            { id: 0, name: 'KeyRambit - Midnight city', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D', desc: 'Stylowy i ergonomiczny brelok wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
+            { id: 0, name: 'Kukirin G2', price: 20.00, img: 'kukirin g2.png', subtitle: 'Kukirin g2- 3D', desc: 'Stylowy i ergonomiczny kukirin wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
             { id: 1, name: 'KeyRambit - Frozen blue', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Frozen blue – brelok 3D', desc: 'Niebieska, mroźna wersja popularnego breloka KeyRambit.' },
             { id: 2, name: 'KeyRambit - Neon', price: 15.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Neon – brelok 3D', desc: 'Jaskrawa, neonowa edycja breloka KeyRambit.' },
             { id: 3, name: 'KeyRambit - Mistyczny Fiolet', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Mistyczny Fiolet – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
             
-            { id: 4, name: 'Czaszka T-Rex V2 - Świecący w ciemności zielony', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 zielona', desc: 'Świecąca w ciemności kolekcjonerska czaszka T-Rex.' },
+            { id: 4, name: 'Mieczyk Minecraft - niebieski', price: 9.99, img: 'mieczyk blue.png', subtitle: 'Mieczyk niebieski - blue', desc: 'Mieczyk z minecrafta Wykonany w dobrej jakośći z drukarki Bambu Lab.' },
             { id: 5, name: 'Czaszka T-Rex V2 - Midnight city', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Midnight city', desc: 'Wersja kolorystyczna Midnight city.' },
             { id: 6, name: 'Czaszka T-Rex V2 - Storm blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Storm blue', desc: 'Sztormowy niebieski wariant czaszki.' },
             { id: 7, name: 'Czaszka T-Rex - V2 Emerald green', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex Emerald green', desc: 'Szmaragdowo zielona edycja.' },
@@ -1169,8 +1167,8 @@
             { id: 9, name: 'Czaszka T-Rex V2 - Frozen blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Frozen blue', desc: 'Lodowy błękit.' },
             { id: 10, name: 'Czaszka T-Rex V2 - Galaxy blue', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy blue', desc: 'Galaktyczny odcień niebieskiego.' },
             { id: 11, name: 'Czaszka T-Rex V2 - Świąteczny galaxy red', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy red', desc: 'Świąteczna czerwień z połyskiem.' },
-            { id: 12, name: 'KUKARONIK - Zielony świecący w ciemności', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KUKARONIK zielony', desc: 'Wyjątkowy gadżet w kształcie makaronika.' },
-            { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
+            { id: 12, name: 'Złoty Spiner', price: 13.00, img: 'kolko zabawka.png', subtitle: 'Złoty Spiner', desc: 'Wyjątkowy gadżet w kształcie kuli.' },
+            { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'keyrambit - czarny.png', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
         ];
 
         let currentProductIndex = 0;
