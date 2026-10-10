@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* --- GÓRNY PASEK --- */
+        /* --- GÓRNY PASEK MARQUEE --- */
         .top-bar-container {
             background: linear-gradient(90deg, #2392ab, #2da9c4, #2392ab);
             background-size: 200% 100%;
@@ -60,9 +60,9 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* --- PŁYWAJĄCE MENU NAWIGACJI --- */
+        /* --- PŁYWAJĄCA NAWIGACJA --- */
         .nav-wrapper {
-            background-color: #ffffff;
+            background-color: transparent;
             display: flex;
             justify-content: center;
             padding: 12px 0;
@@ -76,17 +76,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
-            border-radius: 20px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            padding: 10px 24px;
+            border-radius: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
             width: 94%;
             max-width: 1150px;
+            position: relative;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #1c365c;
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 30px;
         }
 
         .nav-left > span {
@@ -114,9 +124,7 @@
             border-radius: 2px;
         }
 
-        .dropdown {
-            position: relative;
-        }
+        .dropdown { position: relative; }
 
         .dropdown-menu {
             position: absolute;
@@ -171,37 +179,29 @@
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .search-container {
-            position: relative;
-        }
-
-        .search-box {
+        .search-icon-circle {
             background-color: #eef2f5;
-            border-radius: 30px;
-            padding: 8px 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #2d3748;
-            font-size: 14px;
-            font-weight: 700;
-            width: 180px;
+            justify-content: center;
             cursor: pointer;
+            font-size: 16px;
         }
 
-        #search-toggle {
-            display: none;
-        }
+        #search-toggle { display: none; }
 
         .search-dropdown-popup {
             position: absolute;
             top: calc(100% + 15px);
             right: 0;
             background-color: #ffffff;
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
             width: 550px;
             opacity: 0;
@@ -316,7 +316,7 @@
         .icon-btn {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 22px;
             cursor: pointer;
             position: relative;
         }
@@ -336,7 +336,7 @@
 
         .cart-badge.show { display: block; }
 
-        /* --- SYSTEM WIDOKÓW --- */
+        /* --- WIDOKI --- */
         .view {
             display: none;
             opacity: 0;
@@ -353,11 +353,11 @@
         /* --- SEKCJA HERO --- */
         .hero-section {
             background-color: #72b6fd;
-            min-height: 75vh;
+            min-height: 80vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 30px 20px;
+            padding: 40px 20px;
             position: relative;
             overflow: hidden;
         }
@@ -376,10 +376,11 @@
         .hero-text {
             color: white;
             flex: 1;
+            text-align: center;
         }
 
         .hero-text h1 {
-            font-size: 40px;
+            font-size: 42px;
             line-height: 1.25;
             margin-bottom: 18px;
             font-weight: 800;
@@ -390,38 +391,41 @@
             line-height: 1.5;
             margin-bottom: 25px;
             font-weight: 600;
+            opacity: 0.95;
         }
 
         .hero-btn {
             background-color: white;
             color: #1982e5;
             border: none;
-            padding: 13px 28px;
+            padding: 14px 32px;
             font-size: 16px;
             font-weight: 800;
             border-radius: 35px;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .hero-image-box {
             background-color: white;
-            padding: 14px;
-            border-radius: 20px;
+            padding: 16px;
+            border-radius: 24px;
             flex: 1;
-            max-width: 420px;
+            max-width: 450px;
             cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
 
         .hero-image-box img {
             width: 100%;
-            border-radius: 14px;
+            border-radius: 16px;
             display: block;
         }
 
         /* --- SEKCJA BESTSELLERY --- */
         .bestsellers-section {
             background-color: #f4f7fb;
-            padding: 50px 20px;
+            padding: 60px 20px;
             text-align: center;
         }
 
@@ -429,7 +433,7 @@
             display: inline-block;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
-            padding: 5px 14px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 800;
@@ -437,7 +441,7 @@
         }
 
         .bestsellers-section h2 {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 800;
             color: #1c365c;
             margin-bottom: 8px;
@@ -449,7 +453,7 @@
             color: #64748b;
             font-size: 14px;
             font-weight: 600;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
 
         .products-grid {
@@ -870,34 +874,61 @@
             padding: 30px 0;
         }
 
-        /* ================= MEDIA QUERIES (OPTYMALIZACJA MOBILNA) ================= */
+        /* ================= MEDIA QUERIES (1:1 DLA TELEFONÓW) ================= */
         @media (max-width: 768px) {
-            .nav-container {
-                padding: 10px 15px;
-            }
-            .nav-left { gap: 12px; }
-            .nav-left > span { font-size: 13px; }
-            .logo { font-size: 22px; }
-            .search-box { width: 130px; font-size: 12px; padding: 6px 10px; }
+            .mobile-menu-btn { display: block; }
             
+            .nav-left { display: none; } /* Ukrywamy pełne nawigowanie na rzecz ikony menu */
+            
+            .nav-container {
+                padding: 10px 16px;
+            }
+
+            .logo {
+                font-size: 26px;
+            }
+
+            .search-container { position: static; }
+
+            .search-icon-circle {
+                width: 38px;
+                height: 38px;
+            }
+
             .search-dropdown-popup {
                 width: 90vw;
-                right: -40px;
+                left: 5vw;
+                right: 5vw;
+                top: 70px;
             }
+
             .live-search-body { flex-direction: column; }
             .live-suggestions-col { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; }
 
+            /* HERO SEKCJA MOBILNA 1:1 */
             .hero-container {
-                flex-direction: column-reverse;
+                flex-direction: column; /* TEKST NA GÓRZE, ZDJĘCIE NA DOLE */
                 text-align: center;
-                gap: 25px;
+                gap: 30px;
             }
-            .hero-text h1 { font-size: 28px; }
-            .hero-text p { font-size: 14px; }
-            .hero-image-box { max-width: 100%; }
+
+            .hero-text h1 {
+                font-size: 28px;
+                line-height: 1.3;
+            }
+
+            .hero-text p {
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            .hero-image-box {
+                width: 100%;
+                max-width: 100%;
+            }
 
             .products-grid {
-                grid-template-columns: 1fr; /* 1 kolumna na telefonie */
+                grid-template-columns: 1fr;
                 gap: 20px;
             }
 
@@ -911,6 +942,7 @@
                 gap: 20px;
                 align-items: stretch;
             }
+
             .paczkomat-box { width: 100%; }
             .cart-total-box { text-align: left; }
             .checkout-btn { width: 100%; }
@@ -939,9 +971,12 @@
         </div>
     </div>
 
-    <!-- Pływające menu nawigacji -->
+    <!-- Pływające menu nawigacji 1:1 ze screena -->
     <div class="nav-wrapper">
         <div class="nav-container">
+            <!-- Przycisk menu hamburger na telefonie -->
+            <button class="mobile-menu-btn" onclick="switchView('home')">☰</button>
+
             <div class="nav-left">
                 <span onclick="switchView('home')" class="active" id="nav-home">Strona główna</span>
                 <div class="dropdown">
@@ -958,8 +993,8 @@
             <div class="nav-right">
                 <div class="search-container">
                     <input type="checkbox" id="search-toggle">
-                    <label for="search-toggle" class="search-box">
-                        🔍 Szukaj
+                    <label for="search-toggle" class="search-icon-circle">
+                        🔍
                     </label>
 
                     <div class="search-dropdown-popup">
@@ -999,11 +1034,13 @@
     <div id="home-view" class="view active-view">
         <section class="hero-section">
             <div class="hero-container">
+                <!-- TEKST NA GÓRZE MOBILNIE -->
                 <div class="hero-text">
                     <h1>Magiczny świat<br>zabawek 3D od<br>Kreo3D.pl ✨</h1>
                     <p>Kolorowe, bezpieczne i pełne radości — nasze zabawki 3D tworzymy z myślą o uśmiechu każdego dziecka!</p>
                     <button class="hero-btn" onclick="openProduct(0)">Zobacz kolekcję 🎁</button>
                 </div>
+                <!-- ZDJĘCIE NA DOLE MOBILNIE -->
                 <div class="hero-image-box" onclick="openProduct(0)">
                     <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D Kreo3D">
                 </div>
