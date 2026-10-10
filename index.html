@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* --- GÓRNY PASEK MARQUEE --- */
+        /* --- GÓRNY PASEK --- */
         .top-bar-container {
             background: linear-gradient(90deg, #2392ab, #2da9c4, #2392ab);
             background-size: 200% 100%;
@@ -460,8 +460,8 @@
             max-width: 1150px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
 
         .product-card {
@@ -491,7 +491,7 @@
 
         .product-card img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: contain;
             margin: 15px 0;
             cursor: pointer;
@@ -877,23 +877,13 @@
         /* ================= MEDIA QUERIES (1:1 DLA TELEFONÓW) ================= */
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
+            .nav-left { display: none; }
             
-            .nav-left { display: none; } /* Ukrywamy pełne nawigowanie na rzecz ikony menu */
-            
-            .nav-container {
-                padding: 10px 16px;
-            }
-
-            .logo {
-                font-size: 26px;
-            }
+            .nav-container { padding: 10px 16px; }
+            .logo { font-size: 26px; }
 
             .search-container { position: static; }
-
-            .search-icon-circle {
-                width: 38px;
-                height: 38px;
-            }
+            .search-icon-circle { width: 38px; height: 38px; }
 
             .search-dropdown-popup {
                 width: 90vw;
@@ -905,27 +895,16 @@
             .live-search-body { flex-direction: column; }
             .live-suggestions-col { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; }
 
-            /* HERO SEKCJA MOBILNA 1:1 */
             .hero-container {
-                flex-direction: column; /* TEKST NA GÓRZE, ZDJĘCIE NA DOLE */
+                flex-direction: column;
                 text-align: center;
                 gap: 30px;
             }
 
-            .hero-text h1 {
-                font-size: 28px;
-                line-height: 1.3;
-            }
+            .hero-text h1 { font-size: 28px; line-height: 1.3; }
+            .hero-text p { font-size: 14px; line-height: 1.5; }
 
-            .hero-text p {
-                font-size: 14px;
-                line-height: 1.5;
-            }
-
-            .hero-image-box {
-                width: 100%;
-                max-width: 100%;
-            }
+            .hero-image-box { width: 100%; max-width: 100%; }
 
             .products-grid {
                 grid-template-columns: 1fr;
@@ -971,10 +950,9 @@
         </div>
     </div>
 
-    <!-- Pływające menu nawigacji 1:1 ze screena -->
+    <!-- Pływające menu nawigacji -->
     <div class="nav-wrapper">
         <div class="nav-container">
-            <!-- Przycisk menu hamburger na telefonie -->
             <button class="mobile-menu-btn" onclick="switchView('home')">☰</button>
 
             <div class="nav-left">
@@ -1034,26 +1012,34 @@
     <div id="home-view" class="view active-view">
         <section class="hero-section">
             <div class="hero-container">
-                <!-- TEKST NA GÓRZE MOBILNIE -->
                 <div class="hero-text">
                     <h1>Magiczny świat<br>zabawek 3D od<br>Kreo3D.pl ✨</h1>
                     <p>Kolorowe, bezpieczne i pełne radości — nasze zabawki 3D tworzymy z myślą o uśmiechu każdego dziecka!</p>
                     <button class="hero-btn" onclick="openProduct(0)">Zobacz kolekcję 🎁</button>
                 </div>
-                <!-- ZDJĘCIE NA DOLE MOBILNIE -->
                 <div class="hero-image-box" onclick="openProduct(0)">
                     <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D Kreo3D">
                 </div>
             </div>
         </section>
 
-        <!-- Sekcja Bestsellery -->
+        <!-- Sekcja Bestsellery z nowym KeyRambitem - Czarny -->
         <section class="bestsellers-section">
             <div class="badge-top">⭐ TOP SPRZEDAŻY</div>
             <h2>Nasze <span>bestsellery</span></h2>
             <p>Produkty, które klienci wybierają najczęściej</p>
 
             <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-badge-corner">Bestseller</div>
+                    <img src="keyrambit-czarny.png" alt="KeyRambit - Czarny" onclick="openProduct(13)">
+                    <div>
+                        <h3 onclick="openProduct(13)">KeyRambit - Czarny</h3>
+                        <div class="product-price">15,00 zł</div>
+                    </div>
+                    <button class="product-btn" onclick="openProduct(13)">🛒 Zobacz produkt</button>
+                </div>
+
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
                     <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80" alt="KeyRambit" onclick="openProduct(0)">
@@ -1183,7 +1169,8 @@
             { id: 9, name: 'Czaszka T-Rex V2 - Frozen blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Frozen blue', desc: 'Lodowy błękit.' },
             { id: 10, name: 'Czaszka T-Rex V2 - Galaxy blue', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy blue', desc: 'Galaktyczny odcień niebieskiego.' },
             { id: 11, name: 'Czaszka T-Rex V2 - Świąteczny galaxy red', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy red', desc: 'Świąteczna czerwień z połyskiem.' },
-            { id: 12, name: 'KUKARONIK - Zielony świecący w ciemności', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KUKARONIK zielony', desc: 'Wyjątkowy gadżet w kształcie makaronika.' }
+            { id: 12, name: 'KUKARONIK - Zielony świecący w ciemności', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KUKARONIK zielony', desc: 'Wyjątkowy gadżet w kształcie makaronika.' },
+            { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'keyrambit-czarny.png', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
         ];
 
         let currentProductIndex = 0;
