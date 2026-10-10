@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kreo3D - Magiczny świat zabawek 3D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fb;
+            color: #1c365c;
+            overflow-x: hidden;
+        }
+
+        /* --- GÓRNY PASEK ZE ZOPTYMALIZOWANYM, CIĄGŁYM SLIDEM --- */
+        .top-bar-container {
+            background: linear-gradient(90deg, #2392ab, #2da9c4, #2392ab);
+            background-size: 200% 100%;
+            animation: bgMove 10s ease infinite;
+            color: #ffde59;
+            font-size: 14px;
+            font-weight: 800;
+            padding: 12px 0;
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        @keyframes bgMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .top-bar-track {
+            display: flex;
+            width: max-content;
+            animation: marqueeSlide 22s linear infinite;
+        }
+
+        .top-bar-group {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .top-bar-group span {
+            padding: 0 35px;
+        }
+
+        @keyframes marqueeSlide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- PŁYWAJĄCE MENU NAWIGACJI --- */
+        .nav-wrapper {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 35px;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            width: 94%;
+            max-width: 1150px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-left > span {
+            text-decoration: none;
+            color: #1c365c;
+            font-weight: 800;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .nav-left > span.active {
+            color: #1982e5;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-left > span.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #1982e5;
+            border-radius: 2px;
+        }
+
+        /* --- ROZWIJANE MENU (DROPDOWN) --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 15px);
+            left: 0;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            padding: 12px 0;
+            min-width: 190px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.25s ease-in-out;
+            z-index: 1100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 22px;
+            color: #1c365c;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 16px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f7fafc;
+            color: #1982e5;
+        }
+
+        .dropdown-menu a::after {
+            content: '▸';
+            font-size: 14px;
+            color: #1c365c;
+        }
+
+        /* --- LOGO KREO3D --- */
+        .logo {
+            font-family: 'Fredoka', sans-serif;
+            color: #ffde59;
+            font-weight: 700;
+            font-size: 34px;
+            letter-spacing: 1.5px;
+            -webkit-text-stroke: 1.8px #1a1a1a;
+            text-stroke: 1.8px #1a1a1a;
+            display: inline-block;
+            animation: floatLogo 2s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* --- WYSZUKIWARKA Z OKNEM PODPOWIEDZI 1:1 ZE SCREENA --- */
+        .search-container {
+            position: relative;
+        }
+
+        .search-box {
+            background-color: #eef2f5;
+            border-radius: 30px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #2d3748;
+            font-size: 15px;
+            font-weight: 700;
+            width: 250px;
+            cursor: pointer;
+        }
+
+        #search-toggle {
+            display: none;
+        }
+
+        .search-dropdown-popup {
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 0;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+            width: 650px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.25s ease-in-out;
+            z-index: 1200;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        #search-toggle:checked ~ .search-dropdown-popup {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .live-search-top-bar {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            gap: 15px;
+        }
+
+        .live-search-top-bar span {
+            font-size: 11px;
+            color: #718096;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .live-search-top-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-family: 'Quicksand', sans-serif;
+            color: #1c365c;
+            font-weight: 700;
+            background: transparent;
+        }
+
+        .live-search-top-bar button.clear-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #a0aec0;
+        }
+
+        .live-search-top-bar button.search-icon-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #4a5568;
+        }
+
+        .live-search-body {
+            display: flex;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .live-suggestions-col {
+            width: 220px;
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+            background: #fafbfc;
+        }
+
+        .live-suggestions-col h4 {
+            font-size: 11px;
+            font-weight: 800;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-item {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d3748;
+            padding: 6px 0;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .suggestion-item:hover { color: #1982e5; }
+        .suggestion-item b { color: #1c365c; }
+
+        .live-products-col {
+            flex: 1;
+            padding: 10px 0;
+        }
+
+        .live-products-col h4 {
+            font-size: 11px;
+            font-weight: 800;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 20px 10px 20px;
+        }
+
+        .live-product-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .live-product-row:hover { background-color: #f8fafc; }
+
+        .live-product-row img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px solid #edf2f7;
+            background: white;
+            padding: 2px;
+        }
+
+        .live-product-row span {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1c365c;
+        }
+
+        .live-search-footer {
+            padding: 14px 20px;
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #2d3748;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .live-search-footer:hover { background-color: #f8fafc; color: #1982e5; }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: none;
+        }
+
+        .cart-badge.show {
+            display: block;
+            animation: bounceBadge 0.3s ease;
+        }
+
+        @keyframes bounceBadge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        /* --- SYSTEM WIDOKÓW --- */
+        .view {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .view.active-view {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- SEKCJA HERO --- */
+        .hero-section {
+            background-color: #72b6fd;
+            min-height: 82vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before,
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .hero-section::before { left: -100px; bottom: -50px; }
+        .hero-section::after { right: -100px; bottom: -50px; }
+
+        .hero-container {
+            max-width: 1150px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            color: white;
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 46px;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            font-weight: 600;
+            max-width: 470px;
+        }
+
+        .hero-btn {
+            background-color: white;
+            color: #1982e5;
+            border: none;
+            padding: 14px 32px;
+            font-size: 17px;
+            font-weight: 800;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .hero-btn:hover { transform: scale(1.05); }
+
+        .hero-image-box {
+            background-color: white;
+            padding: 16px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            flex: 1;
+            max-width: 450px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .hero-image-box:hover { transform: translateY(-5px); }
+
+        .hero-image-box img {
+            width: 100%;
+            border-radius: 16px;
+            display: block;
+        }
+
+        /* --- SEKCJA BESTSELLERY --- */
+        .bestsellers-section {
+            background-color: #f4f7fb;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .badge-top {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .bestsellers-section h2 {
+            font-size: 38px;
+            font-weight: 800;
+            color: #1c365c;
+            margin-bottom: 10px;
+        }
+
+        .bestsellers-section h2 span {
+            color: #5b21b6;
+        }
+
+        .bestsellers-section > p {
+            color: #64748b;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 50px;
+        }
+
+        .products-grid {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            text-align: left;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .product-badge-corner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #6366f1;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: contain;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .product-card h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1c365c;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .product-card h3:hover { color: #1982e5; }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .product-btn {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+            transition: transform 0.2s;
+        }
+
+        .product-btn:hover { transform: scale(1.02); }
+
+        /* --- WIDOK WYNIKÓW WYSZUKIWANIA --- */
+        .search-results-section {
+            background-color: #ffffff;
+            padding: 50px 20px;
+            min-height: 85vh;
+            max-width: 1150px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .search-results-section h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1c365c;
+            margin-bottom: 25px;
+        }
+
+        .search-bar-input-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            display: flex;
+            align-items: center;
+            border: 1px solid #cbd5e0;
+            border-radius: 10px;
+            padding: 12px 20px;
+            background: #ffffff;
+        }
+
+        .search-bar-input-container span:first-child {
+            font-size: 12px;
+            color: #718096;
+            font-weight: 700;
+            margin-right: 15px;
+        }
+
+        .search-bar-input-container input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-family: 'Quicksand', sans-serif;
+            color: #1c365c;
+            font-weight: 700;
+        }
+
+        .search-bar-input-container button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #4a5568;
+        }
+
+        .search-filters-row {
+            max-width: 1150px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .search-filters-left {
+            display: flex;
+            gap: 25px;
+        }
+
+        .search-filters-left select {
+            border: none;
+            background: none;
+            font-weight: 700;
+            font-size: 14px;
+            color: #1c365c;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- WIDOK SZCZEGÓŁÓW PRODUKTU --- */
+        .product-detail-section {
+            background-color: #ffffff;
+            padding: 60px 20px;
+            min-height: 85vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .product-detail-container {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        .detail-image-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+        }
+
+        .detail-image-box img {
+            width: 100%;
+            border-radius: 16px;
+            display: block;
+        }
+
+        .detail-icons-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .detail-icon-item {
+            flex: 1;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 15px 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-circle {
+            width: 42px;
+            height: 42px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .detail-icon-item span {
+            font-size: 12px;
+            font-weight: 800;
+            color: #1c365c;
+            line-height: 1.2;
+        }
+
+        .detail-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .detail-info h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1c365c;
+            margin-bottom: 15px;
+        }
+
+        .detail-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1982e5;
+            margin-bottom: 25px;
+        }
+
+        .detail-price span {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .detail-desc-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        .detail-desc-box h4 {
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #1c365c;
+        }
+
+        .add-to-cart-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+            margin-bottom: 25px;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .add-to-cart-btn:hover { background-color: #2563eb; transform: scale(1.01); }
+
+        .delivery-info-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1982e5;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+            transition: opacity 0.2s;
+        }
+        .back-link:hover { opacity: 0.8; }
+
+        /* --- WIDOK KOSZYKA --- */
+        .cart-section {
+            background-color: #ffffff;
+            padding: 60px 20px;
+            min-height: 85vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cart-container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .cart-container h2 {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1c365c;
+            margin-bottom: 40px;
+        }
+
+        .cart-item-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .cart-item-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .cart-item-left img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .cart-item-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #1c365c;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .quantity-controls {
+            display: inline-flex;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .quantity-controls button {
+            background: #f8fafc;
+            border: none;
+            padding: 6px 14px;
+            font-weight: 800;
+            cursor: pointer;
+            color: #334155;
+        }
+
+        .quantity-controls span {
+            padding: 6px 14px;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-trash-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: color 0.2s;
+        }
+        .cart-trash-btn:hover { color: #ef4444; }
+
+        .cart-shipping-notice {
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 15px;
+        }
+
+        .cart-progress-bar-bg {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .cart-progress-bar-fill {
+            background: #00b4d8;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .cart-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .paczkomat-box {
+            width: 280px;
+        }
+
+        .paczkomat-box label {
+            display: block;
+            font-weight: 800;
+            font-size: 14px;
+            color: #1c365c;
+            margin-bottom: 8px;
+        }
+
+        .paczkomat-box input {
+            width: 100%;
+            border: 1px solid #cbd5e0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 14px;
+            outline: none;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .cart-total-box {
+            text-align: right;
+        }
+
+        .cart-total-title {
+            font-size: 26px;
+            font-weight: 900;
+            color: #00b4d8;
+            margin-bottom: 5px;
+        }
+
+        .cart-total-sub {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .checkout-btn {
+            background-color: #1982e5;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(25, 130, 229, 0.3);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .checkout-btn:hover { background-color: #1369bc; transform: scale(1.02); }
+
+        .empty-cart-msg {
+            font-size: 16px;
+            color: #64748b;
+            font-weight: 700;
+            padding: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Górny pasek -->
+    <div class="top-bar-container">
+        <div class="top-bar-track">
+            <div class="top-bar-group">
+                <span>⭐ NAJLEPSZA JAKOŚĆ W NAJLEPSZEJ CENIE</span>
+                <span>🚚 DARMOWA DOSTAWA OD 100 ZŁ</span>
+                <span>💎</span>
+                <span>🎁 GRATISY DO ZAMÓWIEŃ OD 50 ZŁ</span>
+                <span>💎</span>
+            </div>
+            <div class="top-bar-group">
+                <span>⭐ NAJLEPSZA JAKOŚĆ W NAJLEPSZEJ CENIE</span>
+                <span>🚚 DARMOWA DOSTAWA OD 100 ZŁ</span>
+                <span>💎</span>
+                <span>🎁 GRATISY DO ZAMÓWIEŃ OD 50 ZŁ</span>
+                <span>💎</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pływające menu nawigacji -->
+    <div class="nav-wrapper">
+        <div class="nav-container">
+            <div class="nav-left">
+                <span onclick="switchView('home')" class="active" id="nav-home">Strona główna</span>
+                <div class="dropdown">
+                    <span class="dropdown-toggle">Produkty ▾</span>
+                    <div class="dropdown-menu">
+                        <a href="#">Breloki</a>
+                        <a href="#">Figurki</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="logo" onclick="switchView('home')">Kreo3D</div>
+
+            <div class="nav-right">
+                <div class="search-container">
+                    <input type="checkbox" id="search-toggle">
+                    <label for="search-toggle" class="search-box">
+                        🔍 Szukaj produktu
+                    </label>
+
+                    <!-- OKNO PODPOWIEDZI WYSZUKIWANIA 1:1 ZE SCREENA -->
+                    <div class="search-dropdown-popup">
+                        <div class="live-search-top-bar">
+                            <span>Szukaj</span>
+                            <input type="text" id="live-search-input" placeholder="Wpisz szukaną frazę..." oninput="onLiveSearchInput(this.value)" onkeydown="if(event.key === 'Enter') performSearch(this.value)">
+                            <button class="clear-btn" onclick="document.getElementById('live-search-input').value=''; onLiveSearchInput('');">×</button>
+                            <button class="search-icon-btn" onclick="performSearch(document.getElementById('live-search-input').value)">🔍</button>
+                        </div>
+                        <div class="live-search-body">
+                            <div class="live-suggestions-col">
+                                <h4>Sugestie</h4>
+                                <div id="live-suggestions-list">
+                                    <!-- Dynamiczne sugestie -->
+                                </div>
+                            </div>
+                            <div class="live-products-col">
+                                <h4>Produkty</h4>
+                                <div id="live-products-list">
+                                    <!-- Dynamiczne produkty w popupie -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="live-search-footer" id="live-search-footer-btn" onclick="performSearch(document.getElementById('live-search-input').value)">
+                            <span id="live-search-footer-text">Szukaj</span>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="icon-btn">👤</button>
+                <button class="icon-btn" onclick="switchView('cart')" title="Twój koszyk">
+                    🛒
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= GŁÓWNA STRONA ================= -->
+    <div id="home-view" class="view active-view">
+        <section class="hero-section">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <h1>Magiczny świat<br>zabawek 3D od<br>Kreo3D.pl ✨</h1>
+                    <p>Kolorowe, bezpieczne i pełne radości — nasze zabawki 3D tworzymy z myślą o uśmiechu każdego dziecka!</p>
+                    <button class="hero-btn" onclick="openProduct(0)">Zobacz kolekcję 🎁</button>
+                </div>
+                <div class="hero-image-box" onclick="openProduct(0)">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D Kreo3D">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Bestsellery -->
+        <section class="bestsellers-section">
+            <div class="badge-top">⭐ TOP SPRZEDAŻY</div>
+            <h2>Nasze <span>bestsellery</span></h2>
+            <p>Produkty, które klienci wybierają najczęściej</p>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-badge-corner">Bestseller</div>
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80" alt="KeyRambit" onclick="openProduct(0)">
+                    <div>
+                        <h3 onclick="openProduct(0)">KeyRambit - Midnight city</h3>
+                        <div class="product-price">15,00 zł</div>
+                    </div>
+                    <button class="product-btn" onclick="openProduct(0)">🛒 Zobacz produkt</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-badge-corner">Bestseller</div>
+                    <img src="https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=500&q=80" alt="Czaszka T-Rex" onclick="openProduct(4)">
+                    <div>
+                        <h3 onclick="openProduct(4)">Czaszka T-Rex V2 - Carnival</h3>
+                        <div class="product-price">16,00 zł</div>
+                    </div>
+                    <button class="product-btn" onclick="openProduct(4)">🛒 Zobacz produkt</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-badge-corner">Bestseller</div>
+                    <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=500&q=80" alt="Kukaronik" onclick="openProduct(11)">
+                    <div>
+                        <h3 onclick="openProduct(11)">KUKARONIK - Zielony świecący w ciemności</h3>
+                        <div class="product-price">15,00 zł</div>
+                    </div>
+                    <button class="product-btn" onclick="openProduct(11)">🛒 Zobacz produkt</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= WIDOK WYNIKÓW WYSZUKIWANIA ================= -->
+    <div id="search-view" class="view">
+        <section class="search-results-section">
+            <h2>Wyniki wyszukiwania</h2>
+
+            <div class="search-bar-input-container">
+                <span>Szukaj</span>
+                <input type="text" id="search-results-input" onkeydown="if(event.key === 'Enter') performSearch(this.value)">
+                <button onclick="performSearch(document.getElementById('search-results-input').value)">🔍</button>
+            </div>
+
+            <div class="search-filters-row">
+                <div class="search-filters-left">
+                    <div>Filtr: Dostępność ▾</div>
+                    <div>Cena ▾</div>
+                </div>
+                <div class="search-filters-right">
+                    Sortuj według: <select><option>Trafność</option></select> <span id="results-count" style="margin-left: 15px;">0 wyników</span>
+                </div>
+            </div>
+
+            <div class="products-grid" id="search-results-grid">
+                <!-- Wyniki ładowane dynamicznie -->
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= WIDOK PRODUKTU ================= -->
+    <div id="product-view" class="view">
+        <section class="product-detail-section">
+            <div class="product-detail-container">
+                <div style="flex: 1;">
+                    <a class="back-link" onclick="switchView('home')">← Wróć do strony głównej</a>
+                    
+                    <div class="detail-image-box">
+                        <img id="det-img" src="" alt="Produkt">
+                    </div>
+
+                    <div class="detail-icons-row">
+                        <div class="detail-icon-item">
+                            <div class="icon-circle">🛒</div>
+                            <span>Dziś<br>Zakup</span>
+                        </div>
+                        <div class="detail-icon-item">
+                            <div class="icon-circle">🚚</div>
+                            <span>Dziś / Jutro<br>Wysyłka</span>
+                        </div>
+                        <div class="detail-icon-item">
+                            <div class="icon-circle">🎁</div>
+                            <span>Jutro / Pojutrze<br>Dostawa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-info">
+                    <h1 id="det-title">Nazwa produktu</h1>
+                    <div class="detail-price"><span id="det-price">15,00</span> zł <span>z VAT</span></div>
+
+                    <div class="detail-desc-box">
+                        <h4 id="det-subtitle">Opis produktu</h4>
+                        <span id="det-desc">Szczegółowy opis produktu...</span>
+                    </div>
+
+                    <button class="add-to-cart-btn" onclick="addToCartCurrent()">Dodaj do koszyka</button>
+
+                    <div class="delivery-info-box">
+                        <div>🚚 Darmowa dostawa od 100 zł</div>
+                        <div>🎁 Gwarantowany gratis przy zakupie od 50 zł!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ================= WIDOK KOSZYKA ================= -->
+    <div id="cart-view" class="view">
+        <section class="cart-section">
+            <div class="cart-container">
+                <h2>Twój koszyk</h2>
+
+                <div id="cart-content-area">
+                    <!-- Wypełniane dynamicznie -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Baza produktów z pełną kolekcją czaszek i keyrambitów ze screena
+        const products = [
+            { id: 0, name: 'KeyRambit - Midnight city', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D', desc: 'Stylowy i ergonomiczny brelok wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
+            { id: 1, name: 'KeyRambit - Frozen blue', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Frozen blue – brelok 3D', desc: 'Niebieska, mroźna wersja popularnego breloka KeyRambit.' },
+            { id: 2, name: 'KeyRambit - Neon', price: 15.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Neon – brelok 3D', desc: 'Jaskrawa, neonowa edycja breloka KeyRambit.' },
+            { id: 3, name: 'KeyRambit - Mistyczny Fiolet', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Mistyczny Fiolet – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
+            
+            { id: 4, name: 'Czaszka T-Rex V2 - Świecący w ciemności zielony', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 zielona', desc: 'Świecąca w ciemności kolekcjonerska czaszka T-Rex.' },
+            { id: 5, name: 'Czaszka T-Rex V2 - Midnight city', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Midnight city', desc: 'Wersja kolorystyczna Midnight city.' },
+            { id: 6, name: 'Czaszka T-Rex V2 - Storm blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Storm blue', desc: 'Sztormowy niebieski wariant czaszki.' },
+            { id: 7, name: 'Czaszka T-Rex - V2 Emerald green', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex Emerald green', desc: 'Szmaragdowo zielona edycja.' },
+            { id: 8, name: 'Czaszka T-Rex V2 - Czarny', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Czarna', desc: 'Klasyczna czarna wersja czaszki T-Rex.' },
+            { id: 9, name: 'Czaszka T-Rex V2 - Frozen blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Frozen blue', desc: 'Lodowy błękit.' },
+            { id: 10, name: 'Czaszka T-Rex V2 - Galaxy blue', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy blue', desc: 'Galaktyczny odcień niebieskiego.' },
+            { id: 11, name: 'Czaszka T-Rex V2 - Świąteczny galaxy red', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy red', desc: 'Świąteczna czerwień z połyskiem.' },
+            
+            { id: 12, name: 'KUKARONIK - Zielony świecący w ciemności', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KUKARONIK zielony', desc: 'Wyjątkowy gadżet w kształcie makaronika.' }
+        ];
+
+        let currentProductIndex = 0;
+        let cart = {
+            item: null,
+            qty: 1,
+            add(productIndex, quantity = 1) {
+                this.item = products[productIndex];
+                this.qty = quantity;
+                updateCartUI();
+            },
+            remove() {
+                this.item = null;
+                this.qty = 1;
+                updateCartUI();
+            },
+            changeQty(delta) {
+                this.qty += delta;
+                if(this.qty < 1) this.qty = 1;
+                updateCartUI();
+            }
+        };
+
+        function openProduct(index) {
+            currentProductIndex = index;
+            const p = products[index];
+            document.getElementById('det-img').src = p.img;
+            document.getElementById('det-title').innerText = p.name;
+            document.getElementById('det-price').innerText = p.price.toFixed(2).replace('.', ',');
+            document.getElementById('det-subtitle').innerText = p.subtitle;
+            document.getElementById('det-desc').innerHTML = p.desc;
+            document.getElementById('search-toggle').checked = false;
+            switchView('product');
+        }
+
+        // Live Search Handler
+        function onLiveSearchInput(query) {
+            const trimmed = query.trim().toLowerCase();
+            const suggestionsList = document.getElementById('live-suggestions-list');
+            const productsList = document.getElementById('live-products-list');
+            const footerText = document.getElementById('live-search-footer-text');
+
+            if (!trimmed) {
+                suggestionsList.innerHTML = '';
+                productsList.innerHTML = '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">Wpisz frazę, aby wyszukać...</div>';
+                footerText.innerText = 'Szukaj';
+                return;
+            }
+
+            footerText.innerText = `Szukaj „${query}”`;
+
+            // Sugestie (np. czaszka / czaszki, keyrambit)
+            let suggestions = [];
+            if (trimmed.includes('czasz')) {
+                suggestions = ['czasz<b>ka</b>', 'czaszki'];
+            } else if (trimmed.includes('key')) {
+                suggestions = ['keyrambit', 'keyrambit midnight'];
+            } else {
+                suggestions = [trimmed, trimmed + ' 3d'];
+            }
+
+            suggestionsList.innerHTML = suggestions.map(s => `
+                <div class="suggestion-item" onclick="performSearch('${trimmed}')">${s}</div>
+            `).join('');
+
+            // Dopasowane produkty
+            const filtered = products.filter(p => p.name.toLowerCase().includes(trimmed) || p.subtitle.toLowerCase().includes(trimmed));
+
+            if (filtered.length > 0) {
+                productsList.innerHTML = filtered.map(p => `
+                    <div class="live-product-row" onclick="openProduct(${p.id})">
+                        <img src="${p.img}" alt="${p.name}">
+                        <span>${p.name}</span>
+                    </div>
+                `).join('');
+            } else {
+                productsList.innerHTML = `<div style="padding: 15px 20px; color: #a0aec0; font-size: 13px;">Brak produktów pasujących do zapytania.</div>`;
+            }
+        }
+
+        function performSearch(query) {
+            if (!query.trim()) return;
+            const trimmed = query.trim().toLowerCase();
+            const resultsContainer = document.getElementById('search-results-grid');
+            const countSpan = document.getElementById('results-count');
+            
+            document.getElementById('search-results-input').value = query;
+
+            const filtered = products.filter(p => p.name.toLowerCase().includes(trimmed) || p.subtitle.toLowerCase().includes(trimmed));
+
+            countSpan.innerText = `${filtered.length} wynik(-ów)`;
+
+            if (filtered.length > 0) {
+                resultsContainer.innerHTML = filtered.map(p => `
+                    <div class="product-card">
+                        <div class="product-badge-corner">Bestseller</div>
+                        <img src="${p.img}" alt="${p.name}" onclick="openProduct(${p.id})">
+                        <div>
+                            <h3 onclick="openProduct(${p.id})">${p.name}</h3>
+                            <div class="product-price">${p.price.toFixed(2).replace('.', ',')} zł PLN</div>
+                        </div>
+                        <button class="product-btn" onclick="openProduct(${p.id})">🛒 Zobacz produkt</button>
+                    </div>
+                `).join('');
+            } else {
+                resultsContainer.innerHTML = `<div style="grid-column: span 3; padding: 40px; color: #64748b; font-weight: 700;">Nie znaleziono produktów pasujących do zapytania.</div>`;
+            }
+
+            document.getElementById('search-toggle').checked = false;
+            switchView('search');
+        }
+
+        function addToCartCurrent() {
+            cart.add(currentProductIndex, 1);
+            switchView('cart');
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const area = document.getElementById('cart-content-area');
+
+            if (cart.item !== null) {
+                const total = cart.item.price * cart.qty;
+                const missingForFreeShipping = Math.max(0, 100 - total);
+                const progressPercent = Math.min(100, (total / 100) * 100);
+
+                badge.innerText = cart.qty;
+                badge.classList.add('show');
+
+                area.innerHTML = `
+                    <div class="cart-item-card">
+                        <div class="cart-item-left">
+                            <img src="${cart.item.img}" alt="Produkt">
+                            <div>
+                                <div class="cart-item-title">${cart.item.name}</div>
+                                <div class="cart-item-price">${cart.item.price.toFixed(2).replace('.', ',')} zł</div>
+                                <div class="quantity-controls">
+                                    <button onclick="cart.changeQty(-1)">-</button>
+                                    <span>${cart.qty}</span>
+                                    <button onclick="cart.changeQty(1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="cart-trash-btn" onclick="cart.remove()" title="Usuń">🗑️</button>
+                    </div>
+
+                    <div class="cart-shipping-notice">
+                        ${missingForFreeShipping > 0 ? `Brakuje Ci ${missingForFreeShipping.toFixed(2).replace('.', ',')} zł do darmowej dostawy 🚚` : `Gratulacje! Masz darmową dostawę! 🚚🎉`}
+                    </div>
+                    <div class="cart-progress-bar-bg">
+                        <div class="cart-progress-bar-fill" style="width: ${progressPercent}%;"></div>
+                    </div>
+
+                    <div style="text-align: left;">
+                        <a class="back-link" onclick="switchView('home')">← Kontynuuj zakupy</a>
+                    </div>
+
+                    <div class="cart-bottom-row">
+                        <div class="paczkomat-box">
+                            <label>📦 Twój Paczkomat InPost:</label>
+                            <input type="text" placeholder="np. WAW123M">
+                        </div>
+                        <div class="cart-total-box">
+                            <div class="cart-total-title">Razem: ${total.toFixed(2).replace('.', ',')} zł</div>
+                            <div class="cart-total-sub">Z wliczonymi podatkami. Rabaty i wysyłka przy kasie.</div>
+                            <button class="checkout-btn">Idź do kasy →</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                badge.classList.remove('show');
+                area.innerHTML = `
+                    <div class="empty-cart-msg">Twój koszyk jest pusty.</div>
+                    <div style="margin-top: 20px;">
+                        <button class="hero-btn" onclick="switchView('home')" style="color: #1982e5;">Wróć do sklepu</button>
+                    </div>
+                `;
+            }
+        }
+
+        function switchView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
+            
+            setTimeout(() => {
+                if(viewName === 'home') {
+                    document.getElementById('home-view').classList.add('active-view');
+                } else if(viewName === 'search') {
+                    document.getElementById('search-view').classList.add('active-view');
+                } else if(viewName === 'product') {
+                    document.getElementById('product-view').classList.add('active-view');
+                } else if(viewName === 'cart') {
+                    document.getElementById('cart-view').classList.add('active-view');
+                    updateCartUI();
+                }
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }, 50);
+        }
+
+        updateCartUI();
+        onLiveSearchInput('');
+    </script>
+</body>
+</html>
