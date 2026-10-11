@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kreo3D - Magiczny świat zabawek 3D</title>
-    <link href="https://fonts.googleapis.com/css2?family=" rel="stylesheet">
+    <link href="keyrambit - czarny.png" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* --- GÓRNY PASEK --- */
+        /* --- GÓRNY PASEK MARQUEE --- */
         .top-bar-container {
             background: linear-gradient(90deg, #2392ab, #2da9c4, #2392ab);
             background-size: 200% 100%;
@@ -353,7 +353,7 @@
         /* --- SEKCJA HERO --- */
         .hero-section {
             background-color: #72b6fd;
-            min-height: 80vh;
+            min-height: 75vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -420,6 +420,99 @@
             width: 100%;
             border-radius: 16px;
             display: block;
+        }
+
+        /* --- SEKCJA KATEGORII (KAFELKI DOKŁADNIE JAK NA SCREENACH) --- */
+        .categories-section {
+            max-width: 1150px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .categories-section h2 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #1c365c;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* Duży kafelek Prank Gun */
+        .category-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            text-decoration: none;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        .category-card-large {
+            grid-row: span 2;
+            height: 420px;
+        }
+
+        .category-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%);
+            z-index: 1;
+        }
+
+        .category-icon-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 6px 10px;
+            font-size: 14px;
+            z-index: 2;
+        }
+
+        .category-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: left;
+        }
+
+        .category-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .category-count {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
         }
 
         /* --- SEKCJA BESTSELLERY --- */
@@ -524,7 +617,7 @@
             cursor: pointer;
         }
 
-        /* --- WIDOK WYNIKÓW WYSZUKIWANIA --- */
+        /* --- WIDOK WYNIKÓW WYSZUKIWANIA I KATEGORII --- */
         .search-results-section {
             background-color: #ffffff;
             padding: 40px 15px;
@@ -535,9 +628,10 @@
         }
 
         .search-results-section h2 {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 800;
             margin-bottom: 20px;
+            color: #1c365c;
         }
 
         .search-bar-input-container {
@@ -874,7 +968,7 @@
             padding: 30px 0;
         }
 
-        /* ================= MEDIA QUERIES ================= */
+        /* ================= MEDIA QUERIES (TELEFONY) ================= */
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .nav-left { display: none; }
@@ -905,6 +999,15 @@
             .hero-text p { font-size: 14px; line-height: 1.5; }
 
             .hero-image-box { width: 100%; max-width: 100%; }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-card-large {
+                height: 250px;
+                grid-row: auto;
+            }
 
             .products-grid {
                 grid-template-columns: 1fr;
@@ -960,8 +1063,9 @@
                 <div class="dropdown">
                     <span class="dropdown-toggle">Produkty ▾</span>
                     <div class="dropdown-menu">
-                        <a href="#">Breloki</a>
-                        <a href="#">Figurki</a>
+                        <a href="#" onclick="openCategory('KeyRambit')">KeyRambity</a>
+                        <a href="#" onclick="openCategory('Czaszka')">Flexi Czaszki</a>
+                        <a href="#" onclick="openCategory('KUKARONIK')">Breloczki</a>
                     </div>
                 </div>
             </div>
@@ -1015,14 +1119,72 @@
                 <div class="hero-text">
                     <h1>Magiczny świat<br>zabawek 3D od<br>Kreo3D.pl ✨</h1>
                     <p>Kolorowe, bezpieczne i pełne radości — nasze zabawki 3D tworzymy z myślą o uśmiechu każdego dziecka!</p>
-                    <button class="hero-btn" >Zobacz kolekcję 🎁</button>
+                    <button class="hero-btn">Zobacz kolekcję 🎁</button>
                 </div>
                 <div class="hero-image-box" onclick="openProduct(0)">
-                    <img src="keyrambit - czarny.png" alt="Zabawki 3D Kreo3D">
+                    <img src="keyrambit - czarny.png"Zabawki 3D Kreo3D">
                 </div>
             </div>
         </section>
-        <!-- Sekcja Bestsellery z czarnym KeyRambitem i poprawnym zdjęciem -->
+
+        <!-- KATEGORIE - SIATKA KAFELKÓW (1:1 JAK NA SCREENACH) -->
+        <section class="categories-section">
+            <h2>Kategorie produktów 🎨</h2>
+
+            <div class="categories-grid">
+                <!-- Główny duży kafelek Prank Gun -->
+                <div class="category-card category-card-large" style="background-image: url('key.jpg');" onclick="openCategory('KeyRambit')">
+                    <div class="category-icon-badge">🔑</div>
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <div class="category-title">KeyRambity</div>
+                        <span class="category-count">5 produktów</span>
+                    </div>
+                </div>
+
+                <!-- Breloczki -->
+                <div class="category-card" style="background-image: url('pfp\ fugurki.jpg');" onclick="openCategory('KUKARONIK')">
+                    <div class="category-icon-badge">🗝️</div>
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <div class="category-title">Breloczki</div>
+                        <span class="category-count">15 produktów</span>
+                    </div>
+                </div>
+
+                <!-- Figurki -->
+                <div class="category-card" style="background-image: url('figurki.jpg');" onclick="openCategory('Czaszka')">
+                    <div class="category-icon-badge">🗿</div>
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <div class="category-title">Figurki & Czaszki</div>
+                        <span class="category-count">8 produktów</span>
+                    </div>
+                </div>
+
+                <!-- Flexi Czaszki -->
+                <div class="category-card" style="background-image: url('flexi.jpg');" onclick="openCategory('Czaszka')">
+                    <div class="category-icon-badge">💀</div>
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <div class="category-title">Flexi Czaszki</div>
+                        <span class="category-count">16 produktów</span>
+                    </div>
+                </div>
+
+                <!-- Gadżety -->
+                <div class="category-card" style="background-image: url('gadzety.jpg');" onclick="openCategory('KeyRambit')">
+                    <div class="category-icon-badge">✨</div>
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <div class="category-title">Gadżety 3D</div>
+                        <span class="category-count">0 produkty</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Bestsellery -->
         <section class="bestsellers-section">
             <div class="badge-top">⭐ TOP SPRZEDAŻY</div>
             <h2>Nasze <span>bestsellery</span></h2>
@@ -1034,16 +1196,16 @@
                     <img src="keyrambit - czarny.png" alt="KeyRambit - Czarny" onclick="openProduct(13)">
                     <div>
                         <h3 onclick="openProduct(13)">KeyRambit - Czarny</h3>
-                        <div class="product-price">15,00 zł</div>
+                        <div class="product-price">12,00 zł</div>
                     </div>
                     <button class="product-btn" onclick="openProduct(13)">🛒 Zobacz produkt</button>
                 </div>
 
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
-                    <img src="kukirin g2.png" alt="kukirin g2" onclick="openProduct(0)">
+                    <img src="kukirin g2.png" alt="Kukirin G2" onclick="openProduct(0)">
                     <div>
-                        <h3 onclick="openProduct(0)">Kukirin g2</h3>
+                        <h3 onclick="openProduct(0)">Kukirin G2</h3>
                         <div class="product-price">20,00 zł</div>
                     </div>
                     <button class="product-btn" onclick="openProduct(0)">🛒 Zobacz produkt</button>
@@ -1051,20 +1213,20 @@
 
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
-                    <img src="mieczyk blue.png" alt="Mieczyk z minecraft" onclick="openProduct(4)">
+                    <img src="mieczyk blue.png" alt="Czaszka T-Rex" onclick="openProduct(4)">
                     <div>
-                        <h3 onclick="openProduct(4)">Mieczyk minecraft - niebieski</h3>
-                        <div class="product-price">9.99 zł</div>
+                        <h3 onclick="openProduct(4)">Mieczyk z Minecraft</h3>
+                        <div class="product-price">9,00 zł</div>
                     </div>
                     <button class="product-btn" onclick="openProduct(4)">🛒 Zobacz produkt</button>
                 </div>
 
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
-                    <img src="kolko zabawka.png" alt="Kukaronik" onclick="openProduct(12)">
+                    <img src="kolko zabawka.png" alt="Złoty Spiner" onclick="openProduct(12)">
                     <div>
-                        <h3 onclick="openProduct(12)">Złoty Spiner 3D</h3>
-                        <div class="product-price">8.00 zł</div>
+                        <h3 onclick="openProduct(12)">Złoty Spiner</h3>
+                        <div class="product-price">8,00 zł</div>
                     </div>
                     <button class="product-btn" onclick="openProduct(12)">🛒 Zobacz produkt</button>
                 </div>
@@ -1072,10 +1234,10 @@
         </section>
     </div>
 
-    <!-- ================= WIDOK WYNIKÓW WYSZUKIWANIA ================= -->
+    <!-- ================= WIDOK WYNIKÓW WYSZUKIWANIA I KATEGORII ================= -->
     <div id="search-view" class="view">
         <section class="search-results-section">
-            <h2>Wyniki wyszukiwania</h2>
+            <h2 id="search-view-title">Wyniki wyszukiwania</h2>
 
             <div class="search-bar-input-container">
                 <span>Szukaj</span>
@@ -1092,6 +1254,7 @@
                 </div>
             </div>
 
+            <div class="products-grid" id="search-results-grid"></div>
         </section>
     </div>
 
@@ -1154,12 +1317,12 @@
 
     <script>
         const products = [
-            { id: 0, name: 'Kukirin G2', price: 20.00, img: 'kukirin g2.png', subtitle: 'Kukirin g2- 3D', desc: 'Stylowy i ergonomiczny kukirin wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
+            { id: 0, name: 'Kukirin G2', price: 20.00, img: 'kukirin g2.png', subtitle: 'Kukirin G2', desc: 'Stylowy kukirin wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
             { id: 1, name: 'KeyRambit - Frozen blue', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Frozen blue – brelok 3D', desc: 'Niebieska, mroźna wersja popularnego breloka KeyRambit.' },
             { id: 2, name: 'KeyRambit - Neon', price: 15.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Neon – brelok 3D', desc: 'Jaskrawa, neonowa edycja breloka KeyRambit.' },
-            { id: 3, name: 'KeyRambit - Mistyczny Fiolet', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Mistyczny Fiolet – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
+            { id: 3, name: 'KeyRambit - Midnight city', price: 15.00, img: 'keyrambit midnight.png', subtitle: 'KeyRambit Midnight City – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
             
-            { id: 4, name: 'Mieczyk Minecraft - niebieski', price: 9.99, img: 'mieczyk blue.png', subtitle: 'Mieczyk niebieski - blue', desc: 'Mieczyk z minecrafta Wykonany w dobrej jakośći z drukarki Bambu Lab.' },
+            { id: 4, name: 'Mieczyk z minecraft - niebieski', price: 9.00, img: 'Mieczyk blue.png', subtitle: 'Mieczyk Blue', desc: 'Mieczyk minecraft (brelok) wykonany z drukarki 3D bambulab' },
             { id: 5, name: 'Czaszka T-Rex V2 - Midnight city', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Midnight city', desc: 'Wersja kolorystyczna Midnight city.' },
             { id: 6, name: 'Czaszka T-Rex V2 - Storm blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Storm blue', desc: 'Sztormowy niebieski wariant czaszki.' },
             { id: 7, name: 'Czaszka T-Rex - V2 Emerald green', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex Emerald green', desc: 'Szmaragdowo zielona edycja.' },
@@ -1167,8 +1330,8 @@
             { id: 9, name: 'Czaszka T-Rex V2 - Frozen blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Frozen blue', desc: 'Lodowy błękit.' },
             { id: 10, name: 'Czaszka T-Rex V2 - Galaxy blue', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy blue', desc: 'Galaktyczny odcień niebieskiego.' },
             { id: 11, name: 'Czaszka T-Rex V2 - Świąteczny galaxy red', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy red', desc: 'Świąteczna czerwień z połyskiem.' },
-            { id: 12, name: 'Złoty Spiner', price: 8.00, img: 'kolko zabawka.png', subtitle: 'Złoty Spiner', desc: 'Wyjątkowy gadżet w kształcie kuli.' },
-            { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'keyrambit - czarny.png', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
+            { id: 12, name: 'Złoty Spiner', price: 8, img: 'kolko zabawka.png', subtitle: 'Złoty kółko ruszające się', desc: 'Wyjątkowy gadżet w kształcie mkuli.' },
+            { id: 13, name: 'KeyRambit - Czarny', price: 12.00, img: 'keyrambit - czarny.png', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
         ];
 
         let currentProductIndex = 0;
@@ -1191,6 +1354,11 @@
                 updateCartUI();
             }
         };
+
+        function openCategory(categoryName) {
+            document.getElementById('search-view-title').innerText = `Kategoria: ${categoryName}`;
+            performSearch(categoryName);
+        }
 
         function openProduct(index) {
             currentProductIndex = index;
@@ -1254,13 +1422,13 @@
                         <img src="${p.img}" alt="${p.name}" onclick="openProduct(${p.id})">
                         <div>
                             <h3 onclick="openProduct(${p.id})">${p.name}</h3>
-                            <div class="product-price">${p.price.toFixed(2).replace('.', ',')} zł PLN</div>
+                            <div class="product-price">${p.price.toFixed(2).replace('.', ',')} zł</div>
                         </div>
                         <button class="product-btn" onclick="openProduct(${p.id})">🛒 Zobacz produkt</button>
                     </div>
                 `).join('');
             } else {
-                resultsContainer.innerHTML = `<div style="grid-column: span 1; padding: 20px; color: #64748b;">Brak wyników.</div>`;
+                resultsContainer.innerHTML = `<div style="grid-column: span 1; padding: 20px; color: #64748b;">Brak wyników w tej kategorii.</div>`;
             }
 
             document.getElementById('search-toggle').checked = false;
