@@ -6,9 +6,9 @@
     <title>Kreo3D - Magiczny świat zabawek 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
     
-    <!-- OFICJALNY GEOWIDGET INPOST (MAPA CAŁEJ POLSKI) -->
-    <link rel="stylesheet" href="https://geowidget.inpost.pl/inpost-geowidget.css">
-    <script src="https://geowidget.inpost.pl/inpost-geowidget.js" defer></script>
+    <!-- LEAFLET MAPA (DZIAŁA BEZ TOKENÓW I BŁĘDÓW) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
         * {
@@ -56,16 +56,14 @@
             white-space: nowrap;
         }
 
-        .top-bar-group span {
-            padding: 0 20px;
-        }
+        .top-bar-group span { padding: 0 20px; }
 
         @keyframes marqueeSlide {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* --- PŁYWAJĄCA NAWIGACJA --- */
+        /* --- NAWIGACJA --- */
         .nav-wrapper {
             background-color: transparent;
             display: flex;
@@ -89,81 +87,6 @@
             position: relative;
         }
 
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #1c365c;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .nav-left > span {
-            text-decoration: none;
-            color: #1c365c;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-        }
-
-        .nav-left > span.active {
-            color: #1982e5;
-            position: relative;
-            padding-bottom: 4px;
-        }
-
-        .nav-left > span.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #1982e5;
-            border-radius: 2px;
-        }
-
-        .dropdown { position: relative; }
-
-        .dropdown-menu {
-            position: absolute;
-            top: calc(100% + 15px);
-            left: 0;
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-            padding: 12px 0;
-            min-width: 170px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.25s ease-in-out;
-            z-index: 1100;
-        }
-
-        .dropdown:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 18px;
-            color: #1c365c;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 14px;
-        }
-
         .logo {
             font-family: 'Fredoka', sans-serif;
             color: #ffde59;
@@ -171,152 +94,13 @@
             font-size: 28px;
             letter-spacing: 1px;
             -webkit-text-stroke: 1.5px #1a1a1a;
-            display: inline-block;
-            animation: floatLogo 2s ease-in-out infinite;
             cursor: pointer;
         }
 
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-3px); }
-        }
+        .nav-left { display: flex; align-items: center; gap: 30px; }
+        .nav-left > span { color: #1c365c; font-weight: 800; font-size: 15px; cursor: pointer; }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .search-icon-circle {
-            background-color: #eef2f5;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        #search-toggle { display: none; }
-
-        .search-dropdown-popup {
-            position: absolute;
-            top: calc(100% + 15px);
-            right: 0;
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
-            width: 550px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.25s ease-in-out;
-            z-index: 1200;
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-        }
-
-        #search-toggle:checked ~ .search-dropdown-popup {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .live-search-top-bar {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid #e2e8f0;
-            gap: 10px;
-        }
-
-        .live-search-top-bar span {
-            font-size: 11px;
-            color: #718096;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .live-search-top-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 15px;
-            font-family: 'Quicksand', sans-serif;
-            color: #1c365c;
-            font-weight: 700;
-            background: transparent;
-        }
-
-        .live-search-body {
-            display: flex;
-            max-height: 350px;
-            overflow-y: auto;
-        }
-
-        .live-suggestions-col {
-            width: 180px;
-            padding: 15px;
-            border-right: 1px solid #e2e8f0;
-            background: #fafbfc;
-        }
-
-        .live-suggestions-col h4, .live-products-col h4 {
-            font-size: 11px;
-            font-weight: 800;
-            color: #a0aec0;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .suggestion-item {
-            font-size: 13px;
-            font-weight: 700;
-            color: #2d3748;
-            padding: 5px 0;
-            cursor: pointer;
-        }
-
-        .live-products-col {
-            flex: 1;
-            padding: 10px 0;
-        }
-
-        .live-product-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 15px;
-            cursor: pointer;
-        }
-
-        .live-product-row img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            border-radius: 6px;
-            background: white;
-        }
-
-        .live-product-row span {
-            font-size: 13px;
-            font-weight: 700;
-            color: #1c365c;
-        }
-
-        .live-search-footer {
-            padding: 12px 15px;
-            background: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+        .nav-right { display: flex; align-items: center; gap: 12px; }
 
         .icon-btn {
             background: none;
@@ -346,7 +130,7 @@
             display: none;
             opacity: 0;
             transform: translateY(15px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .view.active-view {
@@ -355,16 +139,14 @@
             transform: translateY(0);
         }
 
-        /* --- SEKCJA HERO --- */
+        /* --- HERO --- */
         .hero-section {
             background-color: #72b6fd;
-            min-height: 75vh;
+            min-height: 70vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
-            position: relative;
-            overflow: hidden;
         }
 
         .hero-container {
@@ -374,30 +156,10 @@
             justify-content: space-between;
             align-items: center;
             gap: 40px;
-            position: relative;
-            z-index: 2;
         }
 
-        .hero-text {
-            color: white;
-            flex: 1;
-            text-align: center;
-        }
-
-        .hero-text h1 {
-            font-size: 42px;
-            line-height: 1.25;
-            margin-bottom: 18px;
-            font-weight: 800;
-        }
-
-        .hero-text p {
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            font-weight: 600;
-            opacity: 0.95;
-        }
+        .hero-text { color: white; flex: 1; text-align: center; }
+        .hero-text h1 { font-size: 42px; line-height: 1.25; margin-bottom: 18px; font-weight: 800; }
 
         .hero-btn {
             background-color: white;
@@ -408,7 +170,6 @@
             font-weight: 800;
             border-radius: 35px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .hero-image-box {
@@ -418,35 +179,14 @@
             flex: 1;
             max-width: 450px;
             cursor: pointer;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
 
-        .hero-image-box img {
-            width: 100%;
-            border-radius: 16px;
-            display: block;
-        }
+        .hero-image-box img { width: 100%; border-radius: 16px; display: block; }
 
-        /* --- SEKCJA KATEGORII --- */
-        .categories-section {
-            max-width: 1150px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .categories-section h2 {
-            font-size: 30px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+        /* --- KATEGORIE --- */
+        .categories-section { max-width: 1150px; margin: 40px auto; padding: 0 20px; }
+        .categories-section h2 { font-size: 30px; font-weight: 800; color: #1c365c; margin-bottom: 20px; }
+        .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .category-card {
             position: relative;
@@ -456,108 +196,20 @@
             background-size: cover;
             background-position: center;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
         }
 
-        .category-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-        }
+        .category-card-large { grid-row: span 2; height: 420px; }
+        .category-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%); z-index: 1; }
+        .category-content { position: relative; z-index: 2; color: white; }
+        .category-title { font-size: 22px; font-weight: 800; }
 
-        .category-card-large {
-            grid-row: span 2;
-            height: 420px;
-        }
-
-        .category-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%);
-            z-index: 1;
-        }
-
-        .category-icon-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(8px);
-            border-radius: 12px;
-            padding: 6px 10px;
-            font-size: 14px;
-            z-index: 2;
-        }
-
-        .category-content {
-            position: relative;
-            z-index: 2;
-            color: white;
-            text-align: left;
-        }
-
-        .category-title {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .category-count {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(8px);
-            font-size: 11px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-        }
-
-        /* --- SEKCJA BESTSELLERY --- */
-        .bestsellers-section {
-            background-color: #f4f7fb;
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .badge-top {
-            display: inline-block;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .bestsellers-section h2 {
-            font-size: 34px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 8px;
-        }
-
-        .bestsellers-section h2 span { color: #5b21b6; }
-
-        .bestsellers-section > p {
-            color: #64748b;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 40px;
-        }
-
-        .products-grid {
-            max-width: 1150px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
+        /* --- BESTSELLERY --- */
+        .bestsellers-section { background-color: #f4f7fb; padding: 60px 20px; text-align: center; }
+        .products-grid { max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
         .product-card {
             background: white;
@@ -571,41 +223,9 @@
             justify-content: space-between;
         }
 
-        .product-badge-corner {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #6366f1;
-            color: white;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: contain;
-            margin: 15px 0;
-            cursor: pointer;
-        }
-
-        .product-card h3 {
-            font-size: 15px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-
-        .product-price {
-            font-size: 17px;
-            font-weight: 800;
-            color: #64748b;
-            margin-bottom: 15px;
-        }
+        .product-card img { width: 100%; height: 180px; object-fit: contain; margin: 15px 0; cursor: pointer; }
+        .product-card h3 { font-size: 15px; font-weight: 800; color: #1c365c; margin-bottom: 10px; cursor: pointer; }
+        .product-price { font-size: 17px; font-weight: 800; color: #64748b; margin-bottom: 15px; }
 
         .product-btn {
             background: linear-gradient(135deg, #3b82f6, #6366f1);
@@ -619,318 +239,93 @@
             cursor: pointer;
         }
 
-        /* --- WIDOK WYNIKÓW WYSZUKIWANIA I KATEGORII --- */
-        .search-results-section {
-            background-color: #ffffff;
-            padding: 40px 15px;
-            min-height: 85vh;
-            max-width: 1150px;
-            margin: 0 auto;
-            text-align: center;
-        }
+        /* --- CHECKOUT --- */
+        .checkout-section { background-color: #ffffff; padding: 40px 20px; min-height: 85vh; max-width: 1150px; margin: 0 auto; }
+        .checkout-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-weight: 700; outline: none; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .order-summary-box { background: #fafbfc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; }
+        .order-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+        .order-table th, .order-table td { padding: 10px 0; border-bottom: 1px solid #e2e8f0; text-align: left; font-weight: 700; }
 
-        .search-results-section h2 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: #1c365c;
-        }
+        .paczkomat-select-btn { background: #ffcc00; color: #1a1a1a; border: none; padding: 10px 18px; font-weight: 900; font-size: 13px; border-radius: 8px; cursor: pointer; margin-top: 10px; width: 100%; }
+        .selected-paczkomat-info { background: #e6fffa; border: 2px solid #319795; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 13px; font-weight: 700; color: #234e52; }
 
-        .search-bar-input-container {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
-            display: flex;
-            align-items: center;
-            border: 1px solid #cbd5e0;
-            border-radius: 10px;
-            padding: 10px 15px;
-            background: #ffffff;
-        }
+        .pay-btn { background-color: #22c55e; color: white; border: none; width: 100%; padding: 15px; font-size: 16px; font-weight: 900; border-radius: 10px; cursor: pointer; }
 
-        .search-bar-input-container span:first-child {
-            font-size: 12px;
-            color: #718096;
-            font-weight: 700;
-            margin-right: 10px;
-        }
-
-        .search-bar-input-container input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .search-filters-row {
-            max-width: 1150px;
-            margin: 0 auto 25px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 700;
-            color: #4a5568;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 12px;
-        }
-
-        /* --- WIDOK SZCZEGÓŁÓW PRODUKTU --- */
-        .product-detail-section {
-            background-color: #ffffff;
-            padding: 40px 15px;
-            min-height: 85vh;
-            display: flex;
-            justify-content: center;
-        }
-
-        .product-detail-container {
-            max-width: 1050px;
-            width: 100%;
-            display: flex;
-            gap: 40px;
-            align-items: flex-start;
-        }
-
-        .detail-image-box {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
-
-        .detail-image-box img {
-            width: 100%;
-            border-radius: 12px;
-            display: block;
-        }
-
-        .detail-icons-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .detail-icon-item {
-            flex: 1;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 10px 5px;
-            text-align: center;
+        /* ================= EKRAN PRZEJŚCIOWY PAYU (1:1 Z TWOJEGO SCREENA 2) ================= */
+        .payu-overlay-page {
+            background-color: #0d2122;
+            background-image: radial-gradient(circle at 70% 50%, rgba(20, 80, 75, 0.4) 0%, transparent 60%);
+            color: #ffffff;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-        }
-
-        .icon-circle {
-            width: 36px;
-            height: 36px;
-            background: #3b82f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 16px;
-            color: white;
+            padding: 20px;
+            position: relative;
         }
 
-        .detail-icon-item span {
-            font-size: 11px;
-            font-weight: 800;
-            color: #1c365c;
-            line-height: 1.2;
+        .payu-header-logo {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -1px;
         }
 
-        .detail-info { flex: 1; text-align: left; }
+        .payu-header-logo span { color: #a2db24; }
 
-        .detail-info h1 {
-            font-size: 24px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 10px;
+        .payu-modal-card {
+            background: #ffffff;
+            color: #1a1a1a;
+            max-width: 500px;
+            width: 100%;
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: left;
         }
 
-        .detail-price {
-            font-size: 22px;
+        .payu-modal-card h2 {
+            font-size: 20px;
             font-weight: 800;
-            color: #1982e5;
             margin-bottom: 20px;
+            color: #0f172a;
         }
 
-        .detail-desc-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            line-height: 1.5;
+        .payu-modal-card p {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
-        .add-to-cart-btn {
-            background-color: #3b82f6;
-            color: white;
+        .payu-modal-card p a { color: #0284c7; text-decoration: none; font-weight: 700; }
+
+        .payu-action-btn {
+            background-color: #002b2b;
+            color: #ffffff;
             border: none;
             width: 100%;
             padding: 14px;
-            border-radius: 12px;
             font-size: 15px;
             font-weight: 800;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .delivery-info-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 15px;
-            color: #1982e5;
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* --- CHECKOUT (KASA) --- */
-        .checkout-section {
-            background-color: #ffffff;
-            padding: 40px 20px;
-            min-height: 85vh;
-            max-width: 1150px;
-            margin: 0 auto;
-        }
-
-        .coupon-banner {
-            background: #e8f0fe;
-            border: 1px solid #c2d7fc;
-            padding: 14px 20px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 30px;
-            color: #1967d2;
-            cursor: pointer;
-        }
-
-        .checkout-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 40px;
-        }
-
-        .checkout-col h3 {
-            font-size: 22px;
-            font-weight: 900;
-            color: #1c365c;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            color: #2d3748;
-        }
-
-        .form-group label span { color: #e53e3e; }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            outline: none;
-            background: #fff;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .order-summary-box {
-            background: #fafbfc;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 20px;
-        }
-
-        .order-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .order-table th, .order-table td {
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: left;
-            font-weight: 700;
-        }
-
-        .order-table th { color: #718096; font-size: 12px; text-transform: uppercase; }
-
-        .paczkomat-select-btn {
-            background: #ffcc00;
-            color: #1a1a1a;
-            border: none;
-            padding: 10px 18px;
-            font-weight: 900;
-            font-size: 13px;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
-            display: inline-block;
-        }
-
-        .selected-paczkomat-info {
-            background: #e6fffa;
-            border: 2px solid #319795;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #234e52;
-        }
-
-        .pay-btn {
-            background-color: #22c55e;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: 900;
-            border-radius: 10px;
-            cursor: pointer;
+            margin-top: 15px;
             text-align: center;
         }
 
-        /* ================= PRAWDZIWA STRONA PŁATNOŚCI BLIK (SCREEN 2) ================= */
+        .payu-action-btn:hover { background-color: #004242; }
+
+        /* ================= EKRAN PŁATNOŚCI BLIK ================= */
         .blik-full-page {
             background-color: #1a1a1e;
             color: #ffffff;
@@ -944,131 +339,31 @@
             padding: 20px;
         }
 
-        .blik-circle-1 {
-            position: absolute;
-            top: 10%;
-            left: 12%;
-            width: 80px;
-            height: 80px;
-            border: 6px solid #e50050;
-            border-radius: 50%;
-            opacity: 0.8;
-        }
+        .blik-circle-1 { position: absolute; top: 10%; left: 12%; width: 80px; height: 80px; border: 6px solid #e50050; border-radius: 50%; opacity: 0.8; }
+        .blik-circle-2 { position: absolute; top: 12%; left: 16%; width: 140px; height: 140px; border: 6px solid #e50050; border-radius: 50%; opacity: 0.8; }
+        .blik-circle-large { position: absolute; bottom: -150px; left: -150px; width: 500px; height: 500px; border: 12px solid #e50050; border-radius: 50%; opacity: 0.8; }
 
-        .blik-circle-2 {
-            position: absolute;
-            top: 12%;
-            left: 16%;
-            width: 140px;
-            height: 140px;
-            border: 6px solid #e50050;
-            border-radius: 50%;
-            opacity: 0.8;
-        }
-
-        .blik-circle-large {
-            position: absolute;
-            bottom: -150px;
-            left: -150px;
-            width: 500px;
-            height: 500px;
-            border: 12px solid #e50050;
-            border-radius: 50%;
-            opacity: 0.8;
-        }
-
-        .blik-content-card {
-            width: 100%;
-            max-width: 440px;
-            text-align: center;
-            z-index: 10;
-        }
-
-        .blik-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding: 0 10px;
-        }
-
-        .blik-brand-logo {
-            font-size: 28px;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 1px;
-        }
-
+        .blik-content-card { width: 100%; max-width: 440px; text-align: center; z-index: 10; }
+        .blik-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .blik-brand-logo { font-size: 28px; font-weight: 900; color: #ffffff; }
         .blik-brand-logo span { color: #e50050; }
-
-        .blik-lang-select {
-            font-size: 13px;
-            font-weight: 700;
-            color: #a0aec0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .blik-merchant-info {
-            font-size: 12px;
-            color: #a0aec0;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-family: monospace;
-        }
-
-        .blik-merchant-name {
-            font-size: 14px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-top: 4px;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .blik-price-display {
-            font-size: 38px;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 30px;
-        }
-
-        .blik-price-display span {
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .blik-input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+        .blik-merchant-info { font-size: 12px; color: #a0aec0; line-height: 1.6; margin-bottom: 20px; font-family: monospace; }
+        .blik-price-display { font-size: 38px; font-weight: 900; color: #ffffff; margin-bottom: 30px; }
+        .blik-price-display span { font-size: 20px; font-weight: 800; }
 
         .blik-code-field {
-            flex: 1;
+            width: 100%;
             background: #2b2b36;
             border: 1px solid #3f3f4e;
             border-radius: 8px;
             padding: 14px 18px;
             color: #ffffff;
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 900;
             outline: none;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-align: center;
-        }
-
-        .blik-code-field::placeholder { color: #718096; letter-spacing: normal; text-align: left; }
-
-        .blik-help-link {
-            color: #a0aec0;
-            font-size: 13px;
-            font-weight: 700;
-            text-decoration: underline;
-            cursor: pointer;
-            white-space: nowrap;
+            margin-bottom: 20px;
         }
 
         .blik-submit-btn {
@@ -1081,53 +376,15 @@
             font-size: 16px;
             font-weight: 800;
             cursor: pointer;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(229, 0, 80, 0.3);
+            margin-bottom: 15px;
         }
 
-        .blik-cancel-btn {
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 700;
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 40px;
-        }
-
-        .blik-footer-note {
-            font-size: 11px;
-            color: #718096;
-            margin-bottom: 30px;
-        }
-
-        .blik-cookie-box {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 16px 20px;
-            text-align: left;
-            font-size: 11px;
-            color: #a0aec0;
-            line-height: 1.5;
-        }
-
-        .blik-cookie-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 8px;
-            font-size: 12px;
-        }
-
-        /* --- OFICJALNY GEOWIDGET INPOST MODAL --- */
+        /* --- MODAL MAPY INPOST --- */
         #inpost-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 99999;
             justify-content: center;
             align-items: center;
@@ -1136,299 +393,171 @@
         .inpost-modal-content {
             background: white;
             width: 95%;
-            max-width: 900px;
-            height: 85vh;
+            max-width: 850px;
+            height: 80vh;
             border-radius: 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }
 
         .inpost-header {
             background: #ffcc00;
-            padding: 15px 20px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 900;
-            font-size: 16px;
         }
 
-        .close-btn {
+        .map-search-bar {
+            padding: 10px 15px;
+            background: #f1f5f9;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #cbd5e0;
+        }
+
+        .map-search-bar input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        .map-search-bar button {
             background: #1a1a1a;
             color: white;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 800;
             cursor: pointer;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        /* ================= MEDIA QUERIES ================= */
+        #leaflet-map-area { flex: 1; width: 100%; }
+
         @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-            .nav-left { display: none; }
-            .nav-container { padding: 10px 16px; }
-            .logo { font-size: 26px; }
-            .hero-container, .checkout-grid, .products-grid, .categories-grid, .product-detail-container { grid-template-columns: 1fr; flex-direction: column; }
-            .category-card-large { height: 200px; }
+            .hero-container, .checkout-grid, .products-grid, .categories-grid { grid-template-columns: 1fr; flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Górny pasek -->
+    <!-- GÓRNY PASEK MARQUEE -->
     <div class="top-bar-container">
         <div class="top-bar-track">
             <div class="top-bar-group">
                 <span>⭐ NAJLEPSZA JAKOŚĆ W NAJLEPSZEJ CENIE</span>
                 <span>🚚 DARMOWA DOSTAWA OD 100 ZŁ</span>
-                <span>💎</span>
                 <span>🎁 GRATISY DO ZAMÓWIEŃ OD 50 ZŁ</span>
-                <span>💎</span>
             </div>
             <div class="top-bar-group">
                 <span>⭐ NAJLEPSZA JAKOŚĆ W NAJLEPSZEJ CENIE</span>
                 <span>🚚 DARMOWA DOSTAWA OD 100 ZŁ</span>
-                <span>💎</span>
                 <span>🎁 GRATISY DO ZAMÓWIEŃ OD 50 ZŁ</span>
-                <span>💎</span>
             </div>
         </div>
     </div>
 
-    <!-- Pływająca nawigacja -->
+    <!-- NAWIGACJA -->
     <div class="nav-wrapper">
         <div class="nav-container">
-            <button class="mobile-menu-btn" onclick="switchView('home')">☰</button>
-
             <div class="nav-left">
-                <span onclick="switchView('home')" class="active" id="nav-home">Strona główna</span>
-                <div class="dropdown">
-                    <span class="dropdown-toggle">Produkty ▾</span>
-                    <div class="dropdown-menu">
-                        <a href="#" onclick="openCategory('KeyRambit')">KeyRambity</a>
-                        <a href="#" onclick="openCategory('Czaszka')">Flexi Czaszki</a>
-                        <a href="#" onclick="openCategory('KUKARONIK')">Breloczki</a>
-                    </div>
-                </div>
+                <span onclick="switchView('home')">Strona główna</span>
             </div>
-            
             <div class="logo" onclick="switchView('home')">Kreo3D</div>
-
             <div class="nav-right">
-                <div class="search-container">
-                    <input type="checkbox" id="search-toggle">
-                    <label for="search-toggle" class="search-icon-circle">🔍</label>
-
-                    <div class="search-dropdown-popup">
-                        <div class="live-search-top-bar">
-                            <span>Szukaj</span>
-                            <input type="text" id="live-search-input" placeholder="Wpisz frazę..." oninput="onLiveSearchInput(this.value)" onkeydown="if(event.key === 'Enter') performSearch(this.value)">
-                            <button class="clear-btn" onclick="document.getElementById('live-search-input').value=''; onLiveSearchInput('');">×</button>
-                        </div>
-                        <div class="live-search-body">
-                            <div class="live-suggestions-col">
-                                <h4>Sugestie</h4>
-                                <div id="live-suggestions-list"></div>
-                            </div>
-                            <div class="live-products-col">
-                                <h4>Produkty</h4>
-                                <div id="live-products-list"></div>
-                            </div>
-                        </div>
-                        <div class="live-search-footer" onclick="performSearch(document.getElementById('live-search-input').value)">
-                            <span id="live-search-footer-text">Szukaj</span>
-                            <span>→</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="icon-btn">👤</button>
                 <button class="icon-btn" onclick="switchView('cart')" title="Twój koszyk">
-                    🛒
-                    <span class="cart-badge" id="cart-badge">0</span>
+                    🛒 <span class="cart-badge show" id="cart-badge">1</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ================= GŁÓWNA STRONA ================= -->
+    <!-- ================= STRONA GŁÓWNA ================= -->
     <div id="home-view" class="view active-view">
         <section class="hero-section">
             <div class="hero-container">
                 <div class="hero-text">
                     <h1>Magiczny świat<br>zabawek 3D od<br>Kreo3D.pl ✨</h1>
-                    <p>Kolorowe, bezpieczne i pełne radości — nasze zabawki 3D tworzymy z myślą o uśmiechu każdego dziecka!</p>
+                    <p style="margin-bottom: 20px;">Kolorowe, bezpieczne i pełne radości zabawki 3D!</p>
                     <button class="hero-btn" onclick="openProduct(13)">Zobacz kolekcję 🎁</button>
                 </div>
                 <div class="hero-image-box" onclick="openProduct(13)">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D Kreo3D">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawka 3D">
                 </div>
             </div>
         </section>
 
-        <!-- KATEGORIE -->
-        <section class="categories-section">
-            <h2>Kategorie produktów 🎨</h2>
-            <div class="categories-grid">
-                <div class="category-card category-card-large" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80');" onclick="openCategory('KeyRambit')">
-                    <div class="category-icon-badge">🔑</div>
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-title">KeyRambity</div>
-                        <span class="category-count">5 produktów</span>
-                    </div>
-                </div>
-                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('KUKARONIK')">
-                    <div class="category-icon-badge">🗝️</div>
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-title">Breloczki</div>
-                        <span class="category-count">15 produktów</span>
-                    </div>
-                </div>
-                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('Czaszka')">
-                    <div class="category-icon-badge">🗿</div>
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-title">Figurki & Czaszki</div>
-                        <span class="category-count">8 produktów</span>
-                    </div>
-                </div>
-                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('Czaszka')">
-                    <div class="category-icon-badge">💀</div>
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-title">Flexi Czaszki</div>
-                        <span class="category-count">16 produktów</span>
-                    </div>
-                </div>
-                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('KeyRambit')">
-                    <div class="category-icon-badge">✨</div>
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-title">Gadżety 3D</div>
-                        <span class="category-count">4 produkty</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- BESTSELLERY -->
         <section class="bestsellers-section">
-            <div class="badge-top">⭐ TOP SPRZEDAŻY</div>
-            <h2>Nasze <span>bestsellery</span></h2>
-            <p>Produkty, które klienci wybierają najczęściej</p>
+            <h2>Nasze bestsellery ⭐</h2>
             <div class="products-grid" id="bestsellers-grid"></div>
         </section>
     </div>
 
-    <!-- ================= WIDOK WYNIKÓW WYSZUKIWANIA ================= -->
-    <div id="search-view" class="view">
-        <section class="search-results-section">
-            <h2 id="search-view-title">Wyniki wyszukiwania</h2>
-            <div class="search-bar-input-container">
-                <span>Szukaj</span>
-                <input type="text" id="search-results-input" onkeydown="if(event.key === 'Enter') performSearch(this.value)">
-                <button onclick="performSearch(document.getElementById('search-results-input').value)">🔍</button>
-            </div>
-            <div class="search-filters-row">
-                <div class="search-filters-left">Filtr: Dostępność ▾</div>
-                <div class="search-filters-right"><span id="results-count">0 wyników</span></div>
-            </div>
-            <div class="products-grid" id="search-results-grid"></div>
-        </section>
-    </div>
-
-    <!-- ================= WIDOK PRODUKTU ================= -->
-    <div id="product-view" class="view">
-        <section class="product-detail-section">
-            <div class="product-detail-container">
-                <div style="flex: 1;">
-                    <a class="back-link" onclick="switchView('home')">← Wróć do strony głównej</a>
-                    <div class="detail-image-box">
-                        <img id="det-img" src="" alt="Produkt">
-                    </div>
-                    <div class="detail-icons-row">
-                        <div class="detail-icon-item"><div class="icon-circle">🛒</div><span>Dziś<br>Zakup</span></div>
-                        <div class="detail-icon-item"><div class="icon-circle">🚚</div><span>Dziś/Jutro<br>Wysyłka</span></div>
-                        <div class="detail-icon-item"><div class="icon-circle">🎁</div><span>Jutro/Pojutrze<br>Dostawa</span></div>
-                    </div>
-                </div>
-
-                <div class="detail-info">
-                    <h1 id="det-title">Nazwa produktu</h1>
-                    <div class="detail-price"><span id="det-price">15,00</span> zł <span>z VAT</span></div>
-                    <div class="detail-desc-box">
-                        <h4 id="det-subtitle">Opis produktu</h4>
-                        <span id="det-desc">Szczegółowy opis produktu...</span>
-                    </div>
-                    <button class="add-to-cart-btn" onclick="addToCartCurrent()">Dodaj do koszyka</button>
-                    <div class="delivery-info-box">
-                        <div>🚚 Darmowa dostawa od 100 zł</div>
-                        <div>🎁 Gwarantowany gratis przy zakupie od 50 zł!</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- ================= WIDOK KOSZYKA I KASY ================= -->
+    <!-- ================= KOSZYK / CHECKOUT ================= -->
     <div id="cart-view" class="view">
         <section class="checkout-section">
-            <div class="coupon-banner" onclick="alert('Kupon rabatowy aktywny!')">
-                Masz kupon? Kliknij tutaj, aby dodać swój kod 🎟️
-            </div>
-
             <div class="checkout-grid">
-                <div class="checkout-col">
-                    <h3>Dane rozliczeniowe</h3>
-                    <div class="form-group"><label>Adres e-mail <span>*</span></label><input type="email" id="c-email" value="eenderfan@gmail.com"></div>
+                <div>
+                    <h3 style="margin-bottom: 20px; font-size:22px;">Dane rozliczeniowe</h3>
+                    <div class="form-group"><label>Adres e-mail *</label><input type="email" id="c-email" value="eenderfan@gmail.com"></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Imię <span>*</span></label><input type="text" id="c-fname" value="Cyprian"></div>
-                        <div class="form-group"><label>Nazwisko <span>*</span></label><input type="text" id="c-lname" value="Kowalski"></div>
+                        <div class="form-group"><label>Imię *</label><input type="text" value="Cyprian"></div>
+                        <div class="form-group"><label>Nazwisko *</label><input type="text" value="bot"></div>
                     </div>
-                    <div class="form-group"><label>Kraj / region <span>*</span></label><select><option>Polska</option></select></div>
-                    <div class="form-group"><label>Ulica i numer <span>*</span></label><input type="text" id="c-street" value="Leśna 36"></div>
+                    <div class="form-group"><label>Ulica i numer *</label><input type="text" value="Leśna 36"></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Kod pocztowy <span>*</span></label><input type="text" id="c-zip" value="64-800"></div>
-                        <div class="form-group"><label>Miasto <span>*</span></label><input type="text" id="c-city" value="Chodzież"></div>
+                        <div class="form-group"><label>Kod pocztowy *</label><input type="text" value="64-800"></div>
+                        <div class="form-group"><label>Miasto *</label><input type="text" value="Chodzież"></div>
                     </div>
-                    <div class="form-group"><label>Numer telefonu <span>*</span></label><input type="tel" id="c-phone" value="+48 692 600 473"></div>
+                    <div class="form-group"><label>Numer telefonu *</label><input type="tel" value="+48692600473"></div>
                 </div>
 
-                <div class="checkout-col">
+                <div>
                     <div class="order-summary-box">
-                        <h3>Twoje zamówienie</h3>
+                        <h3 style="margin-bottom: 15px;">Twoje zamówienie</h3>
                         <table class="order-table" id="checkout-items-table"></table>
 
-                        <div style="margin: 20px 0; display:flex; flex-direction:column; gap:10px;">
-                            <label><input type="radio" name="shipping" value="12.95" checked onchange="calcTotal()"> InPost Paczkomat 24/7: 12,95 zł</label>
-                            <div id="paczkomat-container" style="padding-left: 20px;">
+                        <div style="margin: 20px 0; display:flex; flex-direction:column; gap:12px;">
+                            <label style="font-weight:800; cursor:pointer;">
+                                <input type="radio" name="shipping" value="12.95" checked onchange="calcTotal()"> InPost Paczkomat 24/7: 12,95 zł
+                            </label>
+                            
+                            <div id="paczkomat-container" style="padding-left: 10px;">
                                 <button class="paczkomat-select-btn" onclick="openInPostMap()">📍 Wybierz Paczkomat z mapy Polski</button>
                                 <div class="selected-paczkomat-info" id="selected-paczkomat-box">
-                                    Wybrany punkt: <b>CHD10M</b><br>Leśna 36, Chodzież
+                                    Wybrany punkt odbioru:<br>
+                                    <b>CHD10M</b> - Leśna 36, Chodzież
                                 </div>
                             </div>
-                            <label><input type="radio" name="shipping" value="12.95" onchange="calcTotal()"> InPost Kurier: 12,95 zł</label>
-                            <label><input type="radio" name="shipping" value="24.98" onchange="calcTotal()"> InPost Kurier za pobraniem: 24,98 zł</label>
                         </div>
 
-                        <button class="pay-btn" onclick="goToBlikView()">Przejdź do płatności BLIK →</button>
+                        <button class="pay-btn" onclick="switchView('payu')">Przejdź do płatności BLIK →</button>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ================= STRONA PŁATNOŚCI BLIK (SCREEN 2) ================= -->
+    <!-- ================= EKRAN PRZEJŚCIOWY PAYU (SCREEN 2) ================= -->
+    <div id="payu-view" class="view">
+        <div class="payu-overlay-page">
+            <div class="payu-header-logo">Pay<span>U</span></div>
+            
+            <div class="payu-modal-card">
+                <h2>Informacje o płatności</h2>
+                <p>Zlecenie PayU S.A. realizuje płatność: <a href="#">czytaj całość</a></p>
+                <p><b>Administratorem Twoich danych osobowych jest PayU S.A.</b> z siedzibą w Poznaniu (60-166), przy ul. Grunwaldzkiej 186 („PayU”). Twoje dane osobowe będą przetwarzane w celu realizacji transakcji płatniczej. <a href="#">czytaj całość</a></p>
+                
+                <button class="payu-action-btn" onclick="goToBlikView()">Przejdź do płatności</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= STRONA PŁATNOŚCI BLIK ================= -->
     <div id="blik-view" class="view">
         <div class="blik-full-page">
             <div class="blik-circle-1"></div>
@@ -1438,109 +567,64 @@
             <div class="blik-content-card">
                 <div class="blik-header-row">
                     <div class="blik-brand-logo">b<span>lik</span></div>
-                    <div class="blik-lang-select">🌐 PL ▾</div>
+                    <div style="font-size:13px; color:#a0aec0;">🌐 PL ▾</div>
                 </div>
 
                 <div class="blik-merchant-info">
                     /OPT/X////// XX5804618347XX<br>
                     20252 fiflak848<br>
-                    <div class="blik-merchant-name">fiflak848.pl</div>
+                    <div style="font-size:14px; font-weight:800; color:#fff; margin-top:4px;">fiflak848.pl</div>
                 </div>
 
                 <div class="blik-price-display" id="blik-final-amount">27<span>,95 zł</span></div>
 
-                <div class="blik-input-wrapper">
-                    <input type="text" class="blik-code-field" id="blik-code-input" maxlength="6" placeholder="Kod BLIK">
-                    <span class="blik-help-link" onclick="alert('Kod BLIK znajdziesz w aplikacji mobilnej swojego banku.')">Skąd wziąć kod?</span>
-                </div>
+                <input type="text" class="blik-code-field" id="blik-code-input" maxlength="6" placeholder="Kod BLIK">
 
                 <button class="blik-submit-btn" onclick="submitBlikPayment()">Dalej</button>
                 <br>
-                <button class="blik-cancel-btn" onclick="switchView('cart')">Anuluj</button>
-
-                <div class="blik-footer-note">Płatność realizowana za pośrednictwem PayU S.A.</div>
-
-                <div class="blik-cookie-box">
-                    <div class="blik-cookie-title">
-                        <span>ℹ️ Informacje o plikach cookie</span>
-                        <span>⌃</span>
-                    </div>
-                    Ten serwis korzysta z plików cookie w celu umożliwienia dokonywania płatności BLIK. Korzystając z serwisu wyrażasz zgodę na umieszczenie pliku cookie w Twoim urządzeniu.
-                </div>
+                <button style="background:none; border:none; color:#fff; cursor:pointer;" onclick="switchView('cart')">Anuluj</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL MAPY INPOST (GEOWIDGET) -->
+    <!-- ================= MODAL MAPY INPOST ================= -->
     <div id="inpost-modal">
         <div class="inpost-modal-content">
             <div class="inpost-header">
-                <span>Wybierz paczkomat InPost z mapy całej Polski</span>
-                <button class="close-btn" onclick="closeInPostMap()">×</button>
+                <span>Wybierz Paczkomat z mapy Polski</span>
+                <button onclick="closeInPostMap()" style="background:none; border:none; font-size:20px; cursor:pointer; font-weight:900;">✕</button>
             </div>
-            <inpost-geowidget onpoint="onPaczkomatSelected(event)" token="12345" language="pl" config="parcelCollect"></inpost-geowidget>
+            <div class="map-search-bar">
+                <input type="text" id="map-search-text" placeholder="Wpisz miasto lub kod (np. Chodzież, Poznań)...">
+                <button onclick="searchLocationOnMap()">Szukaj</button>
+            </div>
+            <div id="leaflet-map-area"></div>
         </div>
     </div>
 
-    <!-- SKRYPTY JAVASCRIPT -->
     <script>
         const products = [
-            { id: 0, name: 'KeyRambit - Midnight city', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D', desc: 'Stylowy i ergonomiczny brelok wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
-            { id: 1, name: 'KeyRambit - Frozen blue', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Frozen blue – brelok 3D', desc: 'Niebieska, mroźna wersja popularnego breloka KeyRambit.' },
-            { id: 2, name: 'KeyRambit - Neon', price: 15.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Neon – brelok 3D', desc: 'Jaskrawa, neonowa edycja breloka KeyRambit.' },
-            { id: 3, name: 'KeyRambit - Mistyczny Fiolet', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Mistyczny Fiolet – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
-            { id: 4, name: 'Czaszka T-Rex V2 - Świecący zielony', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 zielona', desc: 'Świecąca w ciemności kolekcjonerska czaszka T-Rex.' },
-            { id: 5, name: 'Czaszka T-Rex V2 - Midnight city', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Midnight city', desc: 'Wersja kolorystyczna Midnight city.' },
-            { id: 6, name: 'Czaszka T-Rex V2 - Storm blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Storm blue', desc: 'Sztormowy niebieski wariant czaszki.' },
-            { id: 7, name: 'Czaszka T-Rex - V2 Emerald green', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex Emerald green', desc: 'Szmaragdowo zielona edycja.' },
-            { id: 8, name: 'Czaszka T-Rex V2 - Czarny', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Czarna', desc: 'Klasyczna czarna wersja czaszki T-Rex.' },
-            { id: 9, name: 'Czaszka T-Rex V2 - Frozen blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Frozen blue', desc: 'Lodowy błękit.' },
-            { id: 10, name: 'Czaszka T-Rex V2 - Galaxy blue', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy blue', desc: 'Galaktyczny odcień niebieskiego.' },
-            { id: 11, name: 'Czaszka T-Rex V2 - Świąteczny galaxy red', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy red', desc: 'Świąteczna czerwień z połyskiem.' },
-            { id: 12, name: 'KUKARONIK - Zielony świecący', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KUKARONIK zielony', desc: 'Wyjątkowy gadżet w kształcie makaronika.' },
-            { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
+            { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80' }
         ];
 
-        let currentProductIndex = 13;
-        let cartItem = products[13];
+        let cartItem = products[0];
         let cartQty = 1;
         let finalCalculatedTotal = 27.95;
+        let mapInstance = null;
         let selectedPaczkomatCode = "CHD10M";
 
         function renderBestsellers() {
             const grid = document.getElementById('bestsellers-grid');
-            const bestsellers = [products[13], products[0], products[4], products[12]];
-            grid.innerHTML = bestsellers.map(p => `
+            grid.innerHTML = `
                 <div class="product-card">
-                    <div class="product-badge-corner">Bestseller</div>
-                    <img src="${p.img}" alt="${p.name}" onclick="openProduct(${p.id})">
+                    <img src="${cartItem.img}" alt="${cartItem.name}">
                     <div>
-                        <h3 onclick="openProduct(${p.id})">${p.name}</h3>
-                        <div class="product-price">${p.price.toFixed(2).replace('.', ',')} zł</div>
+                        <h3>${cartItem.name}</h3>
+                        <div class="product-price">${cartItem.price.toFixed(2).replace('.', ',')} zł</div>
                     </div>
-                    <button class="product-btn" onclick="openProduct(${p.id})">🛒 Zobacz produkt</button>
+                    <button class="product-btn" onclick="switchView('cart')">🛒 Zobacz produkt</button>
                 </div>
-            `).join('');
-        }
-
-        function openProduct(index) {
-            currentProductIndex = index;
-            const p = products.find(prod => prod.id === index) || products[0];
-            document.getElementById('det-img').src = p.img;
-            document.getElementById('det-title').innerText = p.name;
-            document.getElementById('det-price').innerText = p.price.toFixed(2).replace('.', ',');
-            document.getElementById('det-subtitle').innerText = p.subtitle;
-            document.getElementById('det-desc').innerText = p.desc;
-            document.getElementById('search-toggle').checked = false;
-            switchView('product');
-        }
-
-        function addToCartCurrent() {
-            cartItem = products.find(prod => prod.id === currentProductIndex) || products[0];
-            document.getElementById('cart-badge').innerText = cartQty;
-            document.getElementById('cart-badge').classList.add('show');
-            switchView('cart');
-            renderCheckout();
+            `;
         }
 
         function renderCheckout() {
@@ -1590,104 +674,73 @@
                 alert('Wpisz poprawny 6-cyfrowy kod BLIK!');
                 return;
             }
-            alert(`Płatność ${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł zatwierdzona! Wybrany Paczkomat: ${selectedPaczkomatCode}. Zamówienie przyjęte do realizacji 🚀`);
+            alert(`Płatność ${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł zatwierdzona! Odbiór w punkcie: ${selectedPaczkomatCode}. Dziękujemy za zakupy! 🚀`);
             switchView('home');
         }
 
         function openInPostMap() {
             document.getElementById('inpost-modal').style.display = 'flex';
+            setTimeout(() => {
+                if (!mapInstance) {
+                    mapInstance = L.map('leaflet-map-area').setView([52.9935, 16.7335], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
+                    
+                    const points = [
+                        { name: "CHD10M", lat: 52.9935, lng: 16.7335, desc: "Leśna 36, Chodzież" },
+                        { name: "POZ01A", lat: 52.4064, lng: 16.9252, desc: "Półwiejska 10, Poznań" },
+                        { name: "WAW02B", lat: 52.2297, lng: 21.0122, desc: "Marszałkowska 12, Warszawa" }
+                    ];
+
+                    points.forEach(p => {
+                        L.marker([p.lat, p.lng]).addTo(mapInstance)
+                         .bindPopup(`<b>Paczkomat ${p.name}</b><br>${p.desc}<br><br><button onclick="selectPaczkomat('${p.name}', '${p.desc}')" style="background:#ffcc00; border:none; padding:6px 12px; font-weight:800; border-radius:6px; cursor:pointer;">Wybierz ten Paczkomat</button>`);
+                    });
+                } else {
+                    mapInstance.invalidateSize();
+                }
+            }, 100);
+        }
+
+        function searchLocationOnMap() {
+            const query = document.getElementById('map-search-text').value.trim();
+            if (!query) return;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lon = parseFloat(data[0].lon);
+                        mapInstance.setView([lat, lon], 14);
+                        L.marker([lat, lon]).addTo(mapInstance)
+                         .bindPopup(`<b>Wyszukany punkt: ${query}</b><br><button onclick="selectPaczkomat('PUNKT-${query.toUpperCase()}', '${query}')" style="background:#ffcc00; border:none; padding:6px 12px; font-weight:800; border-radius:6px; cursor:pointer;">Wybierz ten Paczkomat</button>`).openPopup();
+                    } else {
+                        alert('Nie znaleziono podanej lokalizacji.');
+                    }
+                });
         }
 
         function closeInPostMap() {
             document.getElementById('inpost-modal').style.display = 'none';
         }
 
-        function onPaczkomatSelected(event) {
-            const point = event.detail;
-            selectedPaczkomatCode = point.name;
-            const box = document.getElementById('selected-paczkomat-box');
-            box.innerHTML = `Wybrany punkt:<br><b>${point.name}</b><br>${point.address.line1}, ${point.address.line2}`;
+        function selectPaczkomat(code, desc) {
+            selectedPaczkomatCode = code;
+            document.getElementById('selected-paczkomat-box').innerHTML = `Wybrany punkt odbioru:<br><b>${code}</b> - ${desc}`;
             closeInPostMap();
-        }
-
-        function onLiveSearchInput(query) {
-            const trimmed = query.trim().toLowerCase();
-            const suggestionsList = document.getElementById('live-suggestions-list');
-            const productsList = document.getElementById('live-products-list');
-            const footerText = document.getElementById('live-search-footer-text');
-
-            if (!trimmed) {
-                suggestionsList.innerHTML = '';
-                productsList.innerHTML = '<div style="padding: 10px 15px; color: #a0aec0; font-size: 12px;">Wpisz frazę...</div>';
-                footerText.innerText = 'Szukaj';
-                return;
-            }
-
-            footerText.innerText = `Szukaj „${query}”`;
-            suggestionsList.innerHTML = `<div class="suggestion-item" onclick="performSearch('${trimmed}')">${trimmed}</div>`;
-            const filtered = products.filter(p => p.name.toLowerCase().includes(trimmed));
-
-            if (filtered.length > 0) {
-                productsList.innerHTML = filtered.map(p => `
-                    <div class="live-product-row" onclick="openProduct(${p.id})">
-                        <img src="${p.img}" alt="${p.name}">
-                        <span>${p.name}</span>
-                    </div>
-                `).join('');
-            } else {
-                productsList.innerHTML = `<div style="padding: 10px 15px; color: #a0aec0; font-size: 12px;">Brak produktów.</div>`;
-            }
-        }
-
-        function performSearch(query) {
-            if (!query.trim()) return;
-            const trimmed = query.trim().toLowerCase();
-            const resultsContainer = document.getElementById('search-results-grid');
-            const countSpan = document.getElementById('results-count');
-            
-            document.getElementById('search-results-input').value = query;
-            const filtered = products.filter(p => p.name.toLowerCase().includes(trimmed));
-            countSpan.innerText = `${filtered.length} wyników`;
-
-            if (filtered.length > 0) {
-                resultsContainer.innerHTML = filtered.map(p => `
-                    <div class="product-card">
-                        <div class="product-badge-corner">Bestseller</div>
-                        <img src="${p.img}" alt="${p.name}" onclick="openProduct(${p.id})">
-                        <div>
-                            <h3 onclick="openProduct(${p.id})">${p.name}</h3>
-                            <div class="product-price">${p.price.toFixed(2).replace('.', ',')} zł</div>
-                        </div>
-                        <button class="product-btn" onclick="openProduct(${p.id})">🛒 Zobacz produkt</button>
-                    </div>
-                `).join('');
-            } else {
-                resultsContainer.innerHTML = `<div style="grid-column: span 1; padding: 20px; color: #64748b;">Brak wyników.</div>`;
-            }
-
-            document.getElementById('search-toggle').checked = false;
-            switchView('search');
-        }
-
-        function openCategory(categoryName) {
-            document.getElementById('search-view-title').innerText = `Kategoria: ${categoryName}`;
-            performSearch(categoryName);
         }
 
         function switchView(viewName) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
             setTimeout(() => {
                 if(viewName === 'home') document.getElementById('home-view').classList.add('active-view');
-                if(viewName === 'search') document.getElementById('search-view').classList.add('active-view');
-                if(viewName === 'product') document.getElementById('product-view').classList.add('active-view');
                 if(viewName === 'cart') { document.getElementById('cart-view').classList.add('active-view'); renderCheckout(); }
-                if(viewName === 'blik') document.getElementById('blik-view').classList.add('active-view');
+                if(viewName === 'payu') document.getElementById('payu-view').classList.add('active-view');
+                if(viewName === 'blik') { document.getElementById('blik-view').classList.add('active-view'); goToBlikView(); }
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }, 50);
         }
 
         renderBestsellers();
-        onLiveSearchInput('');
     </script>
 </body>
 </html>
