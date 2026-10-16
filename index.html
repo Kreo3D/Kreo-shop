@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kreo3D - Magiczny świat zabawek 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * {
             margin: 0;
@@ -107,58 +108,6 @@
             cursor: pointer;
         }
 
-        .nav-left > span.active {
-            color: #1982e5;
-            position: relative;
-            padding-bottom: 4px;
-        }
-
-        .nav-left > span.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #1982e5;
-            border-radius: 2px;
-        }
-
-        .dropdown { position: relative; }
-
-        .dropdown-menu {
-            position: absolute;
-            top: calc(100% + 15px);
-            left: 0;
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-            padding: 12px 0;
-            min-width: 170px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.25s ease-in-out;
-            z-index: 1100;
-        }
-
-        .dropdown:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 18px;
-            color: #1c365c;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 14px;
-        }
-
         .logo {
             font-family: 'Fredoka', sans-serif;
             color: #ffde59;
@@ -167,13 +116,7 @@
             letter-spacing: 1px;
             -webkit-text-stroke: 1.5px #1a1a1a;
             display: inline-block;
-            animation: floatLogo 2s ease-in-out infinite;
             cursor: pointer;
-        }
-
-        @keyframes floatLogo {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-3px); }
         }
 
         .nav-right {
@@ -227,27 +170,17 @@
             gap: 10px;
         }
 
-        .live-search-top-bar span {
-            font-size: 11px;
-            color: #718096;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
         .live-search-top-bar input {
             flex: 1;
             border: none;
             outline: none;
             font-size: 15px;
-            font-family: 'Quicksand', sans-serif;
-            color: #1c365c;
             font-weight: 700;
-            background: transparent;
         }
 
         .live-search-body {
             display: flex;
-            max-height: 350px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
@@ -256,22 +189,6 @@
             padding: 15px;
             border-right: 1px solid #e2e8f0;
             background: #fafbfc;
-        }
-
-        .live-suggestions-col h4, .live-products-col h4 {
-            font-size: 11px;
-            font-weight: 800;
-            color: #a0aec0;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .suggestion-item {
-            font-size: 13px;
-            font-weight: 700;
-            color: #2d3748;
-            padding: 5px 0;
-            cursor: pointer;
         }
 
         .live-products-col {
@@ -291,26 +208,6 @@
             width: 40px;
             height: 40px;
             object-fit: contain;
-            border-radius: 6px;
-            background: white;
-        }
-
-        .live-product-row span {
-            font-size: 13px;
-            font-weight: 700;
-            color: #1c365c;
-        }
-
-        .live-search-footer {
-            padding: 12px 15px;
-            background: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
         }
 
         .icon-btn {
@@ -340,8 +237,8 @@
         .view {
             display: none;
             opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .view.active-view {
@@ -350,16 +247,14 @@
             transform: translateY(0);
         }
 
-        /* --- SEKCJA HERO --- */
+        /* --- HERO --- */
         .hero-section {
             background-color: #72b6fd;
-            min-height: 75vh;
+            min-height: 70vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
-            position: relative;
-            overflow: hidden;
         }
 
         .hero-container {
@@ -369,30 +264,11 @@
             justify-content: space-between;
             align-items: center;
             gap: 40px;
-            position: relative;
-            z-index: 2;
         }
 
-        .hero-text {
-            color: white;
-            flex: 1;
-            text-align: center;
-        }
+        .hero-text { color: white; flex: 1; text-align: center; }
 
-        .hero-text h1 {
-            font-size: 42px;
-            line-height: 1.25;
-            margin-bottom: 18px;
-            font-weight: 800;
-        }
-
-        .hero-text p {
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            font-weight: 600;
-            opacity: 0.95;
-        }
+        .hero-text h1 { font-size: 42px; line-height: 1.25; margin-bottom: 18px; font-weight: 800; }
 
         .hero-btn {
             background-color: white;
@@ -403,7 +279,6 @@
             font-weight: 800;
             border-radius: 35px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .hero-image-box {
@@ -413,35 +288,15 @@
             flex: 1;
             max-width: 450px;
             cursor: pointer;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
 
-        .hero-image-box img {
-            width: 100%;
-            border-radius: 16px;
-            display: block;
-        }
+        .hero-image-box img { width: 100%; border-radius: 16px; display: block; }
 
-        /* --- SEKCJA KATEGORII --- */
-        .categories-section {
-            max-width: 1150px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+        /* --- KATEGORIE --- */
+        .categories-section { max-width: 1150px; margin: 40px auto; padding: 0 20px; }
+        .categories-section h2 { font-size: 30px; font-weight: 800; color: #1c365c; margin-bottom: 20px; }
 
-        .categories-section h2 {
-            font-size: 30px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+        .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .category-card {
             position: relative;
@@ -451,108 +306,20 @@
             background-size: cover;
             background-position: center;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
         }
 
-        .category-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-        }
+        .category-card-large { grid-row: span 2; height: 420px; }
+        .category-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%); z-index: 1; }
+        .category-content { position: relative; z-index: 2; color: white; }
+        .category-title { font-size: 22px; font-weight: 800; }
 
-        .category-card-large {
-            grid-row: span 2;
-            height: 420px;
-        }
-
-        .category-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%);
-            z-index: 1;
-        }
-
-        .category-icon-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(8px);
-            border-radius: 12px;
-            padding: 6px 10px;
-            font-size: 14px;
-            z-index: 2;
-        }
-
-        .category-content {
-            position: relative;
-            z-index: 2;
-            color: white;
-            text-align: left;
-        }
-
-        .category-title {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .category-count {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(8px);
-            font-size: 11px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-        }
-
-        /* --- SEKCJA BESTSELLERY --- */
-        .bestsellers-section {
-            background-color: #f4f7fb;
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .badge-top {
-            display: inline-block;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .bestsellers-section h2 {
-            font-size: 34px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 8px;
-        }
-
-        .bestsellers-section h2 span { color: #5b21b6; }
-
-        .bestsellers-section > p {
-            color: #64748b;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 40px;
-        }
-
-        .products-grid {
-            max-width: 1150px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
+        /* --- BESTSELLERY --- */
+        .bestsellers-section { background-color: #f4f7fb; padding: 60px 20px; text-align: center; }
+        .products-grid { max-width: 1150px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
         .product-card {
             background: white;
@@ -566,41 +333,10 @@
             justify-content: space-between;
         }
 
-        .product-badge-corner {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #6366f1;
-            color: white;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: contain;
-            margin: 15px 0;
-            cursor: pointer;
-        }
-
-        .product-card h3 {
-            font-size: 15px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-
-        .product-price {
-            font-size: 17px;
-            font-weight: 800;
-            color: #64748b;
-            margin-bottom: 15px;
-        }
+        .product-badge-corner { position: absolute; top: 15px; left: 15px; background: #6366f1; color: white; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
+        .product-card img { width: 100%; height: 180px; object-fit: contain; margin: 15px 0; cursor: pointer; }
+        .product-card h3 { font-size: 15px; font-weight: 800; color: #1c365c; margin-bottom: 10px; cursor: pointer; }
+        .product-price { font-size: 17px; font-weight: 800; color: #64748b; margin-bottom: 15px; }
 
         .product-btn {
             background: linear-gradient(135deg, #3b82f6, #6366f1);
@@ -614,157 +350,14 @@
             cursor: pointer;
         }
 
-        /* --- WIDOK WYNIKÓW WYSZUKIWANIA I KATEGORII --- */
-        .search-results-section {
-            background-color: #ffffff;
-            padding: 40px 15px;
-            min-height: 85vh;
-            max-width: 1150px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .search-results-section h2 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: #1c365c;
-        }
-
-        .search-bar-input-container {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
-            display: flex;
-            align-items: center;
-            border: 1px solid #cbd5e0;
-            border-radius: 10px;
-            padding: 10px 15px;
-            background: #ffffff;
-        }
-
-        .search-bar-input-container span:first-child {
-            font-size: 12px;
-            color: #718096;
-            font-weight: 700;
-            margin-right: 10px;
-        }
-
-        .search-bar-input-container input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .search-filters-row {
-            max-width: 1150px;
-            margin: 0 auto 25px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 700;
-            color: #4a5568;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 12px;
-        }
-
-        /* --- WIDOK SZCZEGÓŁÓW PRODUKTU --- */
-        .product-detail-section {
-            background-color: #ffffff;
-            padding: 40px 15px;
-            min-height: 85vh;
-            display: flex;
-            justify-content: center;
-        }
-
-        .product-detail-container {
-            max-width: 1050px;
-            width: 100%;
-            display: flex;
-            gap: 40px;
-            align-items: flex-start;
-        }
-
-        .detail-image-box {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
-
-        .detail-image-box img {
-            width: 100%;
-            border-radius: 12px;
-            display: block;
-        }
-
-        .detail-icons-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .detail-icon-item {
-            flex: 1;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 10px 5px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .icon-circle {
-            width: 36px;
-            height: 36px;
-            background: #3b82f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: white;
-        }
-
-        .detail-icon-item span {
-            font-size: 11px;
-            font-weight: 800;
-            color: #1c365c;
-            line-height: 1.2;
-        }
-
+        /* --- SZCZEGÓŁY PRODUKTU --- */
+        .product-detail-section { background-color: #ffffff; padding: 40px 15px; min-height: 85vh; display: flex; justify-content: center; }
+        .product-detail-container { max-width: 1050px; width: 100%; display: flex; gap: 40px; }
+        .detail-image-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; flex: 1; }
+        .detail-image-box img { width: 100%; border-radius: 12px; }
         .detail-info { flex: 1; text-align: left; }
-
-        .detail-info h1 {
-            font-size: 24px;
-            font-weight: 800;
-            color: #1c365c;
-            margin-bottom: 10px;
-        }
-
-        .detail-price {
-            font-size: 22px;
-            font-weight: 800;
-            color: #1982e5;
-            margin-bottom: 20px;
-        }
-
-        .detail-desc-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            line-height: 1.5;
-        }
+        .detail-info h1 { font-size: 24px; font-weight: 800; color: #1c365c; margin-bottom: 10px; }
+        .detail-price { font-size: 22px; font-weight: 800; color: #1982e5; margin-bottom: 20px; }
 
         .add-to-cart-btn {
             background-color: #3b82f6;
@@ -776,323 +369,340 @@
             font-size: 15px;
             font-weight: 800;
             cursor: pointer;
-            margin-bottom: 20px;
         }
 
-        .delivery-info-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px 15px;
+        .back-link { display: inline-block; margin-bottom: 15px; color: #1982e5; font-weight: 800; cursor: pointer; }
+
+        /* --- CHECKOUT --- */
+        .checkout-section { background-color: #ffffff; padding: 40px 20px; min-height: 85vh; max-width: 1150px; margin: 0 auto; }
+        .checkout-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-weight: 700; outline: none; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .order-summary-box { background: #fafbfc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; }
+        .order-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+        .order-table th, .order-table td { padding: 10px 0; border-bottom: 1px solid #e2e8f0; text-align: left; font-weight: 700; }
+
+        .paczkomat-select-btn { background: #ffcc00; color: #1a1a1a; border: none; padding: 10px 18px; font-weight: 900; font-size: 13px; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        .selected-paczkomat-info { background: #e6fffa; border: 2px solid #319795; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 13px; font-weight: 700; color: #234e52; }
+
+        .pay-btn { background-color: #22c55e; color: white; border: none; width: 100%; padding: 15px; font-size: 16px; font-weight: 900; border-radius: 10px; cursor: pointer; }
+
+        /* ================= STRONA PŁATNOŚCI BLIK (1:1 JAK NA SCREENIE 2) ================= */
+        .blik-full-page {
+            background-color: #1a1a1e;
+            color: #ffffff;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 15px;
-            color: #1982e5;
-            font-weight: 800;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* --- CHECKOUT (KASA) --- */
-        .checkout-section {
-            background-color: #ffffff;
-            padding: 40px 20px;
-            min-height: 85vh;
-            max-width: 1150px;
-            margin: 0 auto;
-        }
-
-        .coupon-banner {
-            background: #e8f0fe;
-            border: 1px solid #c2d7fc;
-            padding: 14px 20px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 30px;
-            color: #1967d2;
-            cursor: pointer;
-        }
-
-        .checkout-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 40px;
-        }
-
-        .checkout-col h3 {
-            font-size: 22px;
-            font-weight: 900;
-            color: #1c365c;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            color: #2d3748;
-        }
-
-        .form-group label span { color: #e53e3e; }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            outline: none;
-            background: #fff;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .order-summary-box {
-            background: #fafbfc;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
             padding: 20px;
         }
 
-        .order-table {
+        /* Neonowe koła w tle */
+        .blik-circle-1 {
+            position: absolute;
+            top: 10%;
+            left: 12%;
+            width: 80px;
+            height: 80px;
+            border: 6px solid #e50050;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .blik-circle-2 {
+            position: absolute;
+            top: 12%;
+            left: 16%;
+            width: 140px;
+            height: 140px;
+            border: 6px solid #e50050;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .blik-circle-large {
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            border: 12px solid #e50050;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .blik-content-card {
             width: 100%;
-            border-collapse: collapse;
+            max-width: 440px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .blik-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        .blik-brand-logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .blik-brand-logo span { color: #e50050; }
+
+        .blik-lang-select {
+            font-size: 13px;
+            font-weight: 700;
+            color: #a0aec0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .blik-merchant-info {
+            font-size: 12px;
+            color: #a0aec0;
+            line-height: 1.6;
             margin-bottom: 20px;
+            font-family: monospace;
+        }
+
+        .blik-merchant-name {
             font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+            font-family: 'Quicksand', sans-serif;
         }
 
-        .order-table th, .order-table td {
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: left;
-            font-weight: 700;
-        }
-
-        .order-table th { color: #718096; font-size: 12px; text-transform: uppercase; }
-
-        .paczkomat-select-btn {
-            background: #ffcc00;
-            color: #1a1a1a;
-            border: none;
-            padding: 10px 18px;
+        .blik-price-display {
+            font-size: 38px;
             font-weight: 900;
-            font-size: 13px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: inline-block;
+            color: #ffffff;
+            margin-bottom: 30px;
         }
 
-        .selected-paczkomat-info {
-            background: #e6fffa;
-            border: 2px solid #319795;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #234e52;
+        .blik-price-display span {
+            font-size: 20px;
+            font-weight: 800;
         }
 
-        .pay-btn {
-            background-color: #22c55e;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 15px;
+        .blik-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .blik-code-field {
+            flex: 1;
+            background: #2b2b36;
+            border: 1px solid #3f3f4e;
+            border-radius: 8px;
+            padding: 14px 18px;
+            color: #ffffff;
             font-size: 16px;
-            font-weight: 900;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        /* --- STRONA PŁATNOŚCI BLIK --- */
-        .blik-payment-box {
-            max-width: 450px;
-            margin: 50px auto;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-
-        .blik-logo {
-            font-size: 32px;
-            font-weight: 900;
-            color: #000;
-            margin-bottom: 10px;
-        }
-
-        .blik-logo span { color: #eb0029; }
-
-        .blik-amount-tag {
-            font-size: 26px;
-            font-weight: 900;
-            color: #1982e5;
-            margin: 15px 0;
-        }
-
-        .blik-input-code {
-            width: 100%;
-            padding: 15px;
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: 8px;
-            text-align: center;
-            border: 2px solid #cbd5e0;
-            border-radius: 12px;
-            margin: 20px 0;
+            font-weight: 700;
             outline: none;
         }
 
-        .blik-input-code:focus { border-color: #eb0029; }
+        .blik-code-field::placeholder { color: #718096; }
 
-        .blik-confirm-btn {
-            background-color: #eb0029;
+        .blik-help-link {
+            color: #a0aec0;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: underline;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .blik-submit-btn {
+            background: linear-gradient(90deg, #ff0055, #e50050);
             color: white;
             border: none;
             width: 100%;
             padding: 14px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 800;
-            border-radius: 10px;
             cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(229, 0, 80, 0.3);
         }
 
-        /* --- MAP MODAL INPOST --- */
+        .blik-cancel-btn {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 40px;
+        }
+
+        .blik-footer-note {
+            font-size: 11px;
+            color: #718096;
+            margin-bottom: 30px;
+        }
+
+        .blik-cookie-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 11px;
+            color: #a0aec0;
+            line-height: 1.5;
+        }
+
+        .blik-cookie-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        /* ================= MODAL MAPY INPOST (1:1 JAK NA SCREENIE 1) ================= */
         #map-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.65);
             z-index: 9999;
             justify-content: center;
             align-items: center;
         }
 
-        .map-modal-content {
-            background: white;
+        .map-modal-card {
+            background: #ffffff;
             width: 90%;
-            max-width: 700px;
-            height: 550px;
-            border-radius: 16px;
+            max-width: 780px;
+            height: 600px;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
         }
 
-        .map-header {
-            padding: 15px 20px;
-            background: #ffcc00;
+        .map-top-bar {
+            padding: 14px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 900;
-            font-size: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 800;
+            font-size: 15px;
         }
 
-        .map-close-btn {
-            background: none;
+        .map-close-x {
+            background: #edf2f7;
             border: none;
-            font-size: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 16px;
             cursor: pointer;
-            font-weight: 900;
-        }
-
-        #map-box-area {
-            flex: 1;
-            width: 100%;
-            background: #f8fafc;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            text-align: center;
+            font-weight: 800;
         }
 
-        /* ================= MEDIA QUERIES (TELEFONY) ================= */
+        .map-controls-body {
+            padding: 15px 20px;
+            background: #fafbfc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .use-loc-btn {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .map-search-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .map-search-input-box {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border: 2px solid #3182ce;
+            border-radius: 4px;
+            padding: 8px 12px;
+            background: white;
+        }
+
+        .map-search-input-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .map-tabs-row {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .map-tab-item {
+            cursor: pointer;
+            padding-bottom: 4px;
+            color: #4a5568;
+        }
+
+        .map-tab-item.active {
+            background: #ffcc00;
+            color: #1a1a1a;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        #leaflet-map-area {
+            flex: 1;
+            width: 100%;
+        }
+
         @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-            .nav-left { display: none; }
-            
-            .nav-container { padding: 10px 16px; }
-            .logo { font-size: 26px; }
-
-            .search-container { position: static; }
-            .search-icon-circle { width: 38px; height: 38px; }
-
-            .search-dropdown-popup {
-                width: 90vw;
-                left: 5vw;
-                right: 5vw;
-                top: 70px;
-            }
-
-            .live-search-body { flex-direction: column; }
-            .live-suggestions-col { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; }
-
-            .hero-container {
-                flex-direction: column;
-                text-align: center;
-                gap: 30px;
-            }
-
-            .hero-text h1 { font-size: 28px; line-height: 1.3; }
-            .hero-text p { font-size: 14px; line-height: 1.5; }
-
-            .hero-image-box { width: 100%; max-width: 100%; }
-
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .category-card-large {
-                height: 250px;
-                grid-row: auto;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .product-detail-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .checkout-grid {
-                grid-template-columns: 1fr;
-            }
+            .hero-container, .checkout-grid, .products-grid, .categories-grid, .product-detail-container { grid-template-columns: 1fr; flex-direction: column; }
+            .category-card-large { height: 200px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Górny pasek -->
+    <!-- GÓRNY PASEK -->
     <div class="top-bar-container">
         <div class="top-bar-track">
             <div class="top-bar-group">
@@ -1112,13 +722,13 @@
         </div>
     </div>
 
-    <!-- Pływające menu nawigacji -->
+    <!-- NAWIGACJA -->
     <div class="nav-wrapper">
         <div class="nav-container">
             <button class="mobile-menu-btn" onclick="switchView('home')">☰</button>
 
             <div class="nav-left">
-                <span onclick="switchView('home')" class="active" id="nav-home">Strona główna</span>
+                <span onclick="switchView('home')" class="active">Strona główna</span>
                 <div class="dropdown">
                     <span class="dropdown-toggle">Produkty ▾</span>
                     <div class="dropdown-menu">
@@ -1134,16 +744,10 @@
             <div class="nav-right">
                 <div class="search-container">
                     <input type="checkbox" id="search-toggle">
-                    <label for="search-toggle" class="search-icon-circle">
-                        🔍
-                    </label>
-
+                    <label for="search-toggle" class="search-icon-circle">🔍</label>
                     <div class="search-dropdown-popup">
                         <div class="live-search-top-bar">
-                            <span>Szukaj</span>
-                            <input type="text" id="live-search-input" placeholder="Wpisz frazę..." oninput="onLiveSearchInput(this.value)" onkeydown="if(event.key === 'Enter') performSearch(this.value)">
-                            <button class="clear-btn" onclick="document.getElementById('live-search-input').value=''; onLiveSearchInput('');">×</button>
-                            <button class="search-icon-btn" onclick="performSearch(document.getElementById('live-search-input').value)">🔍</button>
+                            <input type="text" id="live-search-input" placeholder="Wpisz frazę..." oninput="onLiveSearchInput(this.value)">
                         </div>
                         <div class="live-search-body">
                             <div class="live-suggestions-col">
@@ -1154,10 +758,6 @@
                                 <h4>Produkty</h4>
                                 <div id="live-products-list"></div>
                             </div>
-                        </div>
-                        <div class="live-search-footer" id="live-search-footer-btn" onclick="performSearch(document.getElementById('live-search-input').value)">
-                            <span id="live-search-footer-text">Szukaj</span>
-                            <span>→</span>
                         </div>
                     </div>
                 </div>
@@ -1171,7 +771,7 @@
         </div>
     </div>
 
-    <!-- ================= GŁÓWNA STRONA ================= -->
+    <!-- ================= STRONA GŁÓWNA ================= -->
     <div id="home-view" class="view active-view">
         <section class="hero-section">
             <div class="hero-container">
@@ -1181,271 +781,220 @@
                     <button class="hero-btn" onclick="openProduct(13)">Zobacz kolekcję 🎁</button>
                 </div>
                 <div class="hero-image-box" onclick="openProduct(13)">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D Kreo3D">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D">
                 </div>
             </div>
         </section>
 
-        <!-- KATEGORIE - SIATKA KAFELKÓW -->
+        <!-- KATEGORIE -->
         <section class="categories-section">
             <h2>Kategorie produktów 🎨</h2>
-
             <div class="categories-grid">
-                <!-- KeyRambity -->
                 <div class="category-card category-card-large" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80');" onclick="openCategory('KeyRambit')">
-                    <div class="category-icon-badge">🔑</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
                         <div class="category-title">KeyRambity</div>
                         <span class="category-count">5 produktów</span>
                     </div>
                 </div>
-
-                <!-- Breloczki -->
                 <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('KUKARONIK')">
-                    <div class="category-icon-badge">🗝️</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
                         <div class="category-title">Breloczki</div>
                         <span class="category-count">15 produktów</span>
                     </div>
                 </div>
-
-                <!-- Figurki -->
                 <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('Czaszka')">
-                    <div class="category-icon-badge">🗿</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
                         <div class="category-title">Figurki & Czaszki</div>
                         <span class="category-count">8 produktów</span>
                     </div>
                 </div>
-
-                <!-- Flexi Czaszki -->
-                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('Czaszka')">
-                    <div class="category-icon-badge">💀</div>
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-title">Flexi Czaszki</div>
-                        <span class="category-count">16 produktów</span>
-                    </div>
-                </div>
-
-                <!-- Gadżety -->
-                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('KeyRambit')">
-                    <div class="category-icon-badge">✨</div>
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-title">Gadżety 3D</div>
-                        <span class="category-count">4 produkty</span>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <!-- Sekcja Bestsellery -->
+        <!-- BESTSELLERY -->
         <section class="bestsellers-section">
             <div class="badge-top">⭐ TOP SPRZEDAŻY</div>
             <h2>Nasze <span>bestsellery</span></h2>
             <p>Produkty, które klienci wybierają najczęściej</p>
-
             <div class="products-grid" id="bestsellers-grid"></div>
         </section>
     </div>
 
-    <!-- ================= WIDOK WYNIKÓW WYSZUKIWANIA I KATEGORII ================= -->
+    <!-- ================= WIDOK PRODUKTÓW/WYSZUKIWANIA ================= -->
     <div id="search-view" class="view">
-        <section class="search-results-section">
-            <h2 id="search-view-title">Wyniki wyszukiwania</h2>
-
-            <div class="search-bar-input-container">
-                <span>Szukaj</span>
-                <input type="text" id="search-results-input" onkeydown="if(event.key === 'Enter') performSearch(this.value)">
-                <button onclick="performSearch(document.getElementById('search-results-input').value)">🔍</button>
-            </div>
-
-            <div class="search-filters-row">
-                <div class="search-filters-left">
-                    <div>Filtr: Dostępność ▾</div>
-                </div>
-                <div class="search-filters-right">
-                    <span id="results-count">0 wyników</span>
-                </div>
-            </div>
-
+        <section style="padding: 40px 20px; max-width: 1150px; margin: 0 auto; text-align: center;">
+            <h2 id="search-view-title" style="margin-bottom: 20px; font-size: 26px; font-weight: 800;">Wyniki</h2>
             <div class="products-grid" id="search-results-grid"></div>
         </section>
     </div>
 
-    <!-- ================= WIDOK PRODUKTU ================= -->
+    <!-- ================= SZCZEGÓŁY PRODUKTU ================= -->
     <div id="product-view" class="view">
         <section class="product-detail-section">
             <div class="product-detail-container">
-                <div style="flex: 1;">
-                    <a class="back-link" onclick="switchView('home')">← Wróć do strony głównej</a>
-                    
-                    <div class="detail-image-box">
-                        <img id="det-img" src="" alt="Produkt">
-                    </div>
-
-                    <div class="detail-icons-row">
-                        <div class="detail-icon-item">
-                            <div class="icon-circle">🛒</div>
-                            <span>Dziś<br>Zakup</span>
-                        </div>
-                        <div class="detail-icon-item">
-                            <div class="icon-circle">🚚</div>
-                            <span>Dziś/Jutro<br>Wysyłka</span>
-                        </div>
-                        <div class="detail-icon-item">
-                            <div class="icon-circle">🎁</div>
-                            <span>Jutro/Pojutrze<br>Dostawa</span>
-                        </div>
-                    </div>
+                <div class="detail-image-box">
+                    <a class="back-link" onclick="switchView('home')">← Wróć do sklepu</a>
+                    <img id="det-img" src="" alt="Produkt">
                 </div>
-
                 <div class="detail-info">
                     <h1 id="det-title">Nazwa produktu</h1>
-                    <div class="detail-price"><span id="det-price">15,00</span> zł <span>z VAT</span></div>
-
-                    <div class="detail-desc-box">
-                        <h4 id="det-subtitle">Opis produktu</h4>
-                        <span id="det-desc">Szczegółowy opis produktu...</span>
-                    </div>
-
+                    <div class="detail-price"><span id="det-price">15,00</span> zł</div>
+                    <p id="det-desc" style="line-height: 1.6; color: #4a5568; margin-bottom: 20px;">Opis...</p>
                     <button class="add-to-cart-btn" onclick="addToCartCurrent()">Dodaj do koszyka</button>
-
-                    <div class="delivery-info-box">
-                        <div>🚚 Darmowa dostawa od 100 zł</div>
-                        <div>🎁 Gwarantowany gratis przy zakupie od 50 zł!</div>
-                    </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ================= WIDOK KOSZYKA I KASY ================= -->
+    <!-- ================= CHECKOUT / KASA ================= -->
     <div id="cart-view" class="view">
         <section class="checkout-section">
-            <div class="coupon-banner" onclick="alert('Kupon rabatowy aktywny!')">
-                Masz kupon? Kliknij tutaj, aby dodać swój kod 🎟️
-            </div>
-
             <div class="checkout-grid">
-                <div class="checkout-col">
-                    <h3>Dane rozliczeniowe</h3>
-                    <div class="form-group">
-                        <label>Adres e-mail <span>*</span></label>
-                        <input type="email" id="c-email" placeholder="twoj@email.com">
-                    </div>
+                <div>
+                    <h3 style="margin-bottom: 20px; font-size:22px; font-weight:900;">Dane rozliczeniowe</h3>
+                    <div class="form-group"><label>Adres e-mail *</label><input type="email" id="c-email" placeholder="eenderfan@gmail.com" value="eenderfan@gmail.com"></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Imię <span>*</span></label><input type="text" id="c-fname" placeholder="Imię"></div>
-                        <div class="form-group"><label>Nazwisko <span>*</span></label><input type="text" id="c-lname" placeholder="Nazwisko"></div>
+                        <div class="form-group"><label>Imię *</label><input type="text" value="Cyprian"></div>
+                        <div class="form-group"><label>Nazwisko *</label><input type="text" value="bot"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Kraj / region <span>*</span></label>
-                        <select><option>Polska</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Ulica i numer <span>*</span></label>
-                        <input type="text" placeholder="np. Polna 5/2">
-                    </div>
+                    <div class="form-group"><label>Kraj / region *</label><select><option>Polska</option></select></div>
+                    <div class="form-group"><label>Ulica i numer *</label><input type="text" value="64-800"></div>
                     <div class="form-row">
-                        <div class="form-group"><label>Kod pocztowy <span>*</span></label><input type="text" placeholder="00-000"></div>
-                        <div class="form-group"><label>Miasto <span>*</span></label><input type="text" placeholder="Miasto"></div>
+                        <div class="form-group"><label>Kod pocztowy *</label><input type="text" value="64-800"></div>
+                        <div class="form-group"><label>Miasto *</label><input type="text" value="chodziez"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Numer telefonu <span>*</span></label>
-                        <input type="tel" placeholder="+48 000 000 000">
-                    </div>
+                    <div class="form-group"><label>Numer telefonu *</label><input type="tel" value="+48692600473"></div>
                 </div>
 
-                <div class="checkout-col">
+                <div>
                     <div class="order-summary-box">
-                        <h3>Twoje zamówienie</h3>
+                        <h3 style="margin-bottom: 15px; font-size:20px; font-weight:900;">Twoje zamówienie</h3>
                         <table class="order-table" id="checkout-items-table"></table>
 
-                        <div style="margin: 20px 0; display:flex; flex-direction:column; gap:10px;">
-                            <label><input type="radio" name="shipping" value="12.95" checked onchange="calcTotal()"> InPost Paczkomat 24/7: 12,95 zł</label>
+                        <div style="margin: 20px 0; display:flex; flex-direction:column; gap:12px;">
+                            <label style="font-weight:800; font-size:13px; cursor:pointer;">
+                                <input type="radio" name="shipping" value="12.95" checked onchange="calcTotal()"> InPost Paczkomat 24/7: 12,95 zł
+                            </label>
+                            
                             <div id="paczkomat-container" style="padding-left: 20px;">
                                 <button class="paczkomat-select-btn" onclick="openMapModal()">Zmień Paczkomat</button>
                                 <div class="selected-paczkomat-info" id="selected-paczkomat-box">
-                                    Wybrany punkt: <b>CHD10M</b><br>Leśna 36, Chodzież
+                                    Wybrany punkt odbioru:<br>
+                                    <b>CHD10M</b><br>
+                                    Leśna 36<br>
+                                    64-800 Chodzież<br>
+                                    Przy sklepie spożywczym
                                 </div>
                             </div>
-                            <label><input type="radio" name="shipping" value="12.95" onchange="calcTotal()"> InPost Kurier: 12,95 zł</label>
-                            <label><input type="radio" name="shipping" value="24.98" onchange="calcTotal()"> InPost Kurier za pobraniem: 24,98 zł</label>
+
+                            <label style="font-weight:800; font-size:13px; cursor:pointer;">
+                                <input type="radio" name="shipping" value="12.95" onchange="calcTotal()"> InPost Kurier: 12,95 zł
+                            </label>
                         </div>
 
-                        <button class="pay-btn" onclick="goToBlikView()">Przejdź do płatności BLIK →</button>
+                        <button class="pay-btn" onclick="goToBlikView()">Zapłać przez BLIK →</button>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ================= STRONA PŁATNOŚCI BLIK ================= -->
+    <!-- ================= STRONA PŁATNOŚCI BLIK (SCREEN 2) ================= -->
     <div id="blik-view" class="view">
-        <div class="blik-payment-box">
-            <div class="blik-logo">b<span>lik</span></div>
-            <p style="font-weight:700; color:#64748b;">Płatność za zamówienie w Kreo3D</p>
-            <div class="blik-amount-tag" id="blik-final-amount">27,95 zł</div>
-            
-            <p style="font-size:13px; font-weight:700; margin-bottom:10px;">Wpisz 6-cyfrowy kod BLIK z aplikacji bankowej:</p>
-            <input type="text" class="blik-input-code" id="blik-code-input" maxlength="6" placeholder="000 000">
+        <div class="blik-full-page">
+            <div class="blik-circle-1"></div>
+            <div class="blik-circle-2"></div>
+            <div class="blik-circle-large"></div>
 
-            <button class="blik-confirm-btn" onclick="submitBlikPayment()">Potwierdzam płatność</button>
-            <br><br>
-            <a onclick="switchView('cart')" style="font-size:12px; font-weight:800; color:#64748b; cursor:pointer;">← Anuluj i wróć do zamówienia</a>
+            <div class="blik-content-card">
+                <div class="blik-header-row">
+                    <div class="blik-brand-logo">b<span>lik</span></div>
+                    <div class="blik-lang-select">🌐 PL ▾</div>
+                </div>
+
+                <div class="blik-merchant-info">
+                    /OPT/X////// XX5804618347XX<br>
+                    20252 fiflak848<br>
+                    <div class="blik-merchant-name">fiflak848.pl</div>
+                </div>
+
+                <div class="blik-price-display" id="blik-final-amount">27<span>,95 zł</span></div>
+
+                <div class="blik-input-wrapper">
+                    <input type="text" class="blik-code-field" id="blik-code-input" maxlength="6" placeholder="Kod BLIK">
+                    <span class="blik-help-link" onclick="alert('Kod BLIK znajdziesz w aplikacji mobilnej swojego banku.')">Skąd wziąć kod?</span>
+                </div>
+
+                <button class="blik-submit-btn" onclick="submitBlikPayment()">Dalej</button>
+                <br>
+                <button class="blik-cancel-btn" onclick="switchView('cart')">Anuluj</button>
+
+                <div class="blik-footer-note">Płatność realizowana za pośrednictwem PayU S.A.</div>
+
+                <div class="blik-cookie-box">
+                    <div class="blik-cookie-title">
+                        <span>ℹ️ Informacje o plikach cookie</span>
+                        <span>⌃</span>
+                    </div>
+                    Ten serwis korzysta z plików cookie w celu umożliwienia dokonywania płatności BLIK. Korzystając z serwisu wyrażasz zgodę na umieszczenie pliku cookie w Twoim urządzeniu.
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL INPOST -->
+    <!-- ================= MODAL MAPY INPOST (SCREEN 1) ================= -->
     <div id="map-modal">
-        <div class="map-modal-content">
-            <div class="map-header">
-                <span>Wybierz paczkomat InPost</span>
-                <button class="map-close-btn" onclick="closeMapModal()">×</button>
+        <div class="map-modal-card">
+            <div class="map-top-bar">
+                <span>Wybierz paczkomat</span>
+                <button class="map-close-x" onclick="closeMapModal()">✕</button>
             </div>
-            <div id="map-box-area">
-                <h4 style="margin-bottom:10px;">Wybierz punkt odbioru:</h4>
-                <select id="paczkomat-select" style="padding:10px; width:80%; border-radius:8px; font-weight:bold;">
-                    <option value="CHD10M - Leśna 36, Chodzież">CHD10M - Leśna 36, Chodzież</option>
-                    <option value="WAW01A - Marszałkowska 10, Warszawa">WAW01A - Marszałkowska 10, Warszawa</option>
-                    <option value="POZ05B - Półwiejska 12, Poznań">POZ05B - Półwiejska 12, Poznań</option>
-                </select>
-                <button onclick="confirmPaczkomatSelect()" style="margin-top:15px; background:#ffcc00; border:none; padding:10px 20px; font-weight:bold; border-radius:8px; cursor:pointer;">Wybierz</button>
+
+            <div class="map-controls-body">
+                <button class="use-loc-btn">Użyj mojej lokalizacji</button>
+                <div class="map-search-row">
+                    <div class="map-search-input-box">
+                        <input type="text" id="map-search-input" value="Chodzież" placeholder="Wpisz miasto lub kod...">
+                        <span style="cursor:pointer;" onclick="document.getElementById('map-search-input').value=''">✕</span>
+                    </div>
+                    <button style="background:none; border:none; font-size:18px; cursor:pointer;">🔍</button>
+                </div>
+                <div class="map-tabs-row">
+                    <span class="map-tab-item active">Wszystkie</span>
+                    <span class="map-tab-item">Paczkomat®</span>
+                    <span class="map-tab-item">PaczkoPunkt</span>
+                </div>
             </div>
+
+            <div id="leaflet-map-area"></div>
         </div>
     </div>
 
+    <!-- SKRYPT LEAFLET JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const products = [
             { id: 0, name: 'KeyRambit - Midnight city', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D', desc: 'Stylowy i ergonomiczny brelok wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
             { id: 1, name: 'KeyRambit - Frozen blue', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Frozen blue – brelok 3D', desc: 'Niebieska, mroźna wersja popularnego breloka KeyRambit.' },
             { id: 2, name: 'KeyRambit - Neon', price: 15.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Neon – brelok 3D', desc: 'Jaskrawa, neonowa edycja breloka KeyRambit.' },
             { id: 3, name: 'KeyRambit - Mistyczny Fiolet', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Mistyczny Fiolet – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
-            
             { id: 4, name: 'Czaszka T-Rex V2 - Świecący zielony', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 zielona', desc: 'Świecąca w ciemności kolekcjonerska czaszka T-Rex.' },
-            { id: 5, name: 'Czaszka T-Rex V2 - Midnight city', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Midnight city', desc: 'Wersja kolorystyczna Midnight city.' },
-            { id: 6, name: 'Czaszka T-Rex V2 - Storm blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Storm blue', desc: 'Sztormowy niebieski wariant czaszki.' },
-            { id: 7, name: 'Czaszka T-Rex - V2 Emerald green', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex Emerald green', desc: 'Szmaragdowo zielona edycja.' },
-            { id: 8, name: 'Czaszka T-Rex V2 - Czarny', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Czarna', desc: 'Klasyczna czarna wersja czaszki T-Rex.' },
-            { id: 9, name: 'Czaszka T-Rex V2 - Frozen blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Frozen blue', desc: 'Lodowy błękit.' },
-            { id: 10, name: 'Czaszka T-Rex V2 - Galaxy blue', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy blue', desc: 'Galaktyczny odcień niebieskiego.' },
-            { id: 11, name: 'Czaszka T-Rex V2 - Świąteczny galaxy red', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy red', desc: 'Świąteczna czerwień z połyskiem.' },
             { id: 12, name: 'KUKARONIK - Zielony świecący', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KUKARONIK zielony', desc: 'Wyjątkowy gadżet w kształcie makaronika.' },
             { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
         ];
 
         let currentProductIndex = 13;
-        let cartItem = products[13];
+        let cartItem = products[6];
         let cartQty = 1;
         let finalCalculatedTotal = 27.95;
+        let mapInstance = null;
 
         function renderBestsellers() {
             const grid = document.getElementById('bestsellers-grid');
-            const bestsellers = [products[13], products[0], products[4], products[12]];
+            const bestsellers = [products[6], products[0], products[4], products[5]];
             grid.innerHTML = bestsellers.map(p => `
                 <div class="product-card">
                     <div class="product-badge-corner">Bestseller</div>
@@ -1465,7 +1014,6 @@
             document.getElementById('det-img').src = p.img;
             document.getElementById('det-title').innerText = p.name;
             document.getElementById('det-price').innerText = p.price.toFixed(2).replace('.', ',');
-            document.getElementById('det-subtitle').innerText = p.subtitle;
             document.getElementById('det-desc').innerText = p.desc;
             document.getElementById('search-toggle').checked = false;
             switchView('product');
@@ -1502,37 +1050,55 @@
 
             const totalRow = document.createElement('tr');
             totalRow.id = 'checkout-total-row';
-            totalRow.innerHTML = `<td style="font-weight:900; font-size:16px;">Łącznie</td><td style="font-weight:900; font-size:16px; color:#1982e5;">${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł</td>`;
+
+            const zloty = Math.floor(finalCalculatedTotal);
+            const grosze = Math.round((finalCalculatedTotal - zloty) * 100);
+            const groszeStr = grosze < 10 ? '0' + grosze : grosze;
+
+            totalRow.innerHTML = `<td style="font-weight:900; font-size:16px;">Łącznie</td><td style="font-weight:900; font-size:16px; color:#1982e5;">${zloty},${groszeStr} zł</td>`;
             table.appendChild(totalRow);
         }
 
         function goToBlikView() {
-            document.getElementById('blik-final-amount').innerText = `${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł`;
+            const zloty = Math.floor(finalCalculatedTotal);
+            const grosze = Math.round((finalCalculatedTotal - zloty) * 100);
+            const groszeStr = grosze < 10 ? '0' + grosze : grosze;
+            
+            document.getElementById('blik-final-amount').innerHTML = `${zloty}<span>,${groszeStr} zł</span>`;
             switchView('blik');
         }
 
         function submitBlikPayment() {
             const code = document.getElementById('blik-code-input').value.trim();
             if(code.length !== 6) {
-                alert('Wpisz poprawny, 6-cyfrowy kod BLIK!');
+                alert('Wpisz poprawny 6-cyfrowy kod BLIK!');
                 return;
             }
-            alert(`Płatność ${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł przyjęta pomyślnie! Zamówienie w realizacji 🚀`);
+            alert(`Płatność przyjęta pomyślnie! Dziękujemy za zakupy w Kreo3D.`);
             switchView('home');
         }
 
         function openMapModal() {
             document.getElementById('map-modal').style.display = 'flex';
+            setTimeout(() => {
+                if (!mapInstance) {
+                    mapInstance = L.map('leaflet-map-area').setView([52.9935, 16.7335], 14);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
+                    const marker = L.marker([52.9935, 16.7335]).addTo(mapInstance);
+                    marker.bindPopup("<b>CHD10M</b><br>Leśna 36, Chodzież<br><br><button onclick='selectPaczkomat(\"CHD10M\", \"Leśna 36\", \"64-800 Chodzież\", \"Przy sklepie spożywczym\")' style='background:#ffcc00; border:none; padding:6px 12px; font-weight:800; border-radius:6px; cursor:pointer;'>Wybierz ten Paczkomat</button>").openPopup();
+                } else {
+                    mapInstance.invalidateSize();
+                }
+            }, 100);
         }
 
         function closeMapModal() {
             document.getElementById('map-modal').style.display = 'none';
         }
 
-        function confirmPaczkomatSelect() {
-            const val = document.getElementById('paczkomat-select').value;
+        function selectPaczkomat(code, street, city, desc) {
             const box = document.getElementById('selected-paczkomat-box');
-            box.innerHTML = `Wybrany punkt: <b>${val}</b>`;
+            box.innerHTML = `Wybrany punkt odbioru:<br><b>${code}</b><br>${street}<br>${city}<br>${desc}`;
             closeMapModal();
         }
 
@@ -1540,20 +1106,14 @@
             const trimmed = query.trim().toLowerCase();
             const suggestionsList = document.getElementById('live-suggestions-list');
             const productsList = document.getElementById('live-products-list');
-            const footerText = document.getElementById('live-search-footer-text');
 
             if (!trimmed) {
                 suggestionsList.innerHTML = '';
                 productsList.innerHTML = '<div style="padding: 10px 15px; color: #a0aec0; font-size: 12px;">Wpisz frazę...</div>';
-                footerText.innerText = 'Szukaj';
                 return;
             }
 
-            footerText.innerText = `Szukaj „${query}”`;
-
-            let suggestions = trimmed.includes('czasz') ? ['czaszka', 'czaszki'] : [trimmed];
-            suggestionsList.innerHTML = suggestions.map(s => `<div class="suggestion-item" onclick="performSearch('${trimmed}')">${s}</div>`).join('');
-
+            suggestionsList.innerHTML = `<div class="suggestion-item">${trimmed}</div>`;
             const filtered = products.filter(p => p.name.toLowerCase().includes(trimmed));
 
             if (filtered.length > 0) {
@@ -1572,17 +1132,11 @@
             if (!query.trim()) return;
             const trimmed = query.trim().toLowerCase();
             const resultsContainer = document.getElementById('search-results-grid');
-            const countSpan = document.getElementById('results-count');
-            
-            document.getElementById('search-results-input').value = query;
-
             const filtered = products.filter(p => p.name.toLowerCase().includes(trimmed));
-            countSpan.innerText = `${filtered.length} wyników`;
 
             if (filtered.length > 0) {
                 resultsContainer.innerHTML = filtered.map(p => `
                     <div class="product-card">
-                        <div class="product-badge-corner">Bestseller</div>
                         <img src="${p.img}" alt="${p.name}" onclick="openProduct(${p.id})">
                         <div>
                             <h3 onclick="openProduct(${p.id})">${p.name}</h3>
@@ -1591,10 +1145,7 @@
                         <button class="product-btn" onclick="openProduct(${p.id})">🛒 Zobacz produkt</button>
                     </div>
                 `).join('');
-            } else {
-                resultsContainer.innerHTML = `<div style="grid-column: span 1; padding: 20px; color: #64748b;">Brak wyników.</div>`;
             }
-
             document.getElementById('search-toggle').checked = false;
             switchView('search');
         }
@@ -1617,7 +1168,6 @@
         }
 
         renderBestsellers();
-        onLiveSearchInput('');
     </script>
 </body>
 </html>
