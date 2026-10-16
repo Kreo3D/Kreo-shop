@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kreo3D - Magiczny świat zabawek 3D</title>
-    <link href="keyrambit - czarny.png" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -422,7 +422,7 @@
             display: block;
         }
 
-        /* --- SEKCJA KATEGORII (KAFELKI DOKŁADNIE JAK NA SCREENACH) --- */
+        /* --- SEKCJA KATEGORII --- */
         .categories-section {
             max-width: 1150px;
             margin: 40px auto;
@@ -443,7 +443,6 @@
             gap: 20px;
         }
 
-        /* Duży kafelek Prank Gun */
         .category-card {
             position: relative;
             border-radius: 24px;
@@ -458,7 +457,6 @@
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
-            text-decoration: none;
         }
 
         .category-card:hover {
@@ -501,7 +499,6 @@
             font-size: 22px;
             font-weight: 800;
             margin-bottom: 6px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .category-count {
@@ -803,169 +800,237 @@
             font-size: 14px;
         }
 
-        /* --- WIDOK KOSZYKA --- */
-        .cart-section {
+        /* --- CHECKOUT (KASA) --- */
+        .checkout-section {
             background-color: #ffffff;
-            padding: 40px 15px;
+            padding: 40px 20px;
             min-height: 85vh;
-            display: flex;
-            justify-content: center;
+            max-width: 1150px;
+            margin: 0 auto;
         }
 
-        .cart-container {
-            max-width: 850px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .cart-container h2 {
-            font-size: 28px;
-            font-weight: 900;
+        .coupon-banner {
+            background: #e8f0fe;
+            border: 1px solid #c2d7fc;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
             margin-bottom: 30px;
+            color: #1967d2;
+            cursor: pointer;
         }
 
-        .cart-item-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+        }
+
+        .checkout-col h3 {
+            font-size: 22px;
+            font-weight: 900;
+            color: #1c365c;
             margin-bottom: 20px;
-            text-align: left;
         }
 
-        .cart-item-left {
-            display: flex;
-            align-items: center;
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: #2d3748;
+        }
+
+        .form-group label span { color: #e53e3e; }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            outline: none;
+            background: #fff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
-        .cart-item-left img {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
+        .order-summary-box {
+            background: #fafbfc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
         }
 
-        .cart-item-title {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .cart-item-price {
-            font-size: 13px;
-            font-weight: 700;
-            color: #64748b;
-            margin-bottom: 8px;
-        }
-
-        .quantity-controls {
-            display: inline-flex;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-        }
-
-        .quantity-controls button {
-            background: #f8fafc;
-            border: none;
-            padding: 4px 10px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        .quantity-controls span {
-            padding: 4px 10px;
-            font-weight: 800;
-            font-size: 13px;
-        }
-
-        .cart-trash-btn {
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-
-        .cart-shipping-notice {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .cart-progress-bar-bg {
-            background: #e2e8f0;
-            border-radius: 8px;
-            height: 8px;
+        .order-table {
             width: 100%;
-            overflow: hidden;
-            margin-bottom: 25px;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 14px;
         }
 
-        .cart-progress-bar-fill {
-            background: #00b4d8;
-            height: 100%;
-            border-radius: 8px;
-        }
-
-        .cart-bottom-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 25px;
+        .order-table th, .order-table td {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
             text-align: left;
+            font-weight: 700;
         }
 
-        .paczkomat-box { width: 240px; }
+        .order-table th { color: #718096; font-size: 12px; text-transform: uppercase; }
 
-        .paczkomat-box label {
-            display: block;
-            font-weight: 800;
-            font-size: 13px;
-            margin-bottom: 6px;
-        }
-
-        .paczkomat-box input {
-            width: 100%;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 13px;
-        }
-
-        .cart-total-box { text-align: right; }
-
-        .cart-total-title {
-            font-size: 22px;
+        .paczkomat-select-btn {
+            background: #ffcc00;
+            color: #1a1a1a;
+            border: none;
+            padding: 10px 18px;
             font-weight: 900;
-            color: #00b4d8;
-            margin-bottom: 4px;
+            font-size: 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
         }
 
-        .cart-total-sub {
-            font-size: 10px;
-            color: #64748b;
-            margin-bottom: 12px;
+        .selected-paczkomat-info {
+            background: #e6fffa;
+            border: 2px solid #319795;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #234e52;
         }
 
-        .checkout-btn {
-            background-color: #1982e5;
+        .pay-btn {
+            background-color: #22c55e;
             color: white;
             border: none;
-            padding: 12px 28px;
-            font-size: 15px;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 900;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* --- STRONA PŁATNOŚCI BLIK --- */
+        .blik-payment-box {
+            max-width: 450px;
+            margin: 50px auto;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .blik-logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .blik-logo span { color: #eb0029; }
+
+        .blik-amount-tag {
+            font-size: 26px;
+            font-weight: 900;
+            color: #1982e5;
+            margin: 15px 0;
+        }
+
+        .blik-input-code {
+            width: 100%;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-align: center;
+            border: 2px solid #cbd5e0;
+            border-radius: 12px;
+            margin: 20px 0;
+            outline: none;
+        }
+
+        .blik-input-code:focus { border-color: #eb0029; }
+
+        .blik-confirm-btn {
+            background-color: #eb0029;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
             font-weight: 800;
             border-radius: 10px;
             cursor: pointer;
         }
 
-        .empty-cart-msg {
-            font-size: 15px;
-            color: #64748b;
-            font-weight: 700;
-            padding: 30px 0;
+        /* --- MAP MODAL INPOST --- */
+        #map-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-modal-content {
+            background: white;
+            width: 90%;
+            max-width: 700px;
+            height: 550px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .map-header {
+            padding: 15px 20px;
+            background: #ffcc00;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        .map-close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: 900;
+        }
+
+        #map-box-area {
+            flex: 1;
+            width: 100%;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
         }
 
         /* ================= MEDIA QUERIES (TELEFONY) ================= */
@@ -1019,15 +1084,9 @@
                 gap: 20px;
             }
 
-            .cart-bottom-row {
-                flex-direction: column;
-                gap: 20px;
-                align-items: stretch;
+            .checkout-grid {
+                grid-template-columns: 1fr;
             }
-
-            .paczkomat-box { width: 100%; }
-            .cart-total-box { text-align: left; }
-            .checkout-btn { width: 100%; }
         }
     </style>
 </head>
@@ -1119,21 +1178,21 @@
                 <div class="hero-text">
                     <h1>Magiczny świat<br>zabawek 3D od<br>Kreo3D.pl ✨</h1>
                     <p>Kolorowe, bezpieczne i pełne radości — nasze zabawki 3D tworzymy z myślą o uśmiechu każdego dziecka!</p>
-                    <button class="hero-btn">Zobacz kolekcję 🎁</button>
+                    <button class="hero-btn" onclick="openProduct(13)">Zobacz kolekcję 🎁</button>
                 </div>
-                <div class="hero-image-box" onclick="openProduct(0)">
-                    <img src="keyrambit - czarny.png"Zabawki 3D Kreo3D">
+                <div class="hero-image-box" onclick="openProduct(13)">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Zabawki 3D Kreo3D">
                 </div>
             </div>
         </section>
 
-        <!-- KATEGORIE - SIATKA KAFELKÓW (1:1 JAK NA SCREENACH) -->
+        <!-- KATEGORIE - SIATKA KAFELKÓW -->
         <section class="categories-section">
             <h2>Kategorie produktów 🎨</h2>
 
             <div class="categories-grid">
-                <!-- Główny duży kafelek Prank Gun -->
-                <div class="category-card category-card-large" style="background-image: url('key.jpg');" onclick="openCategory('KeyRambit')">
+                <!-- KeyRambity -->
+                <div class="category-card category-card-large" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80');" onclick="openCategory('KeyRambit')">
                     <div class="category-icon-badge">🔑</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
@@ -1143,7 +1202,7 @@
                 </div>
 
                 <!-- Breloczki -->
-                <div class="category-card" style="background-image: url('pfp\ fugurki.jpg');" onclick="openCategory('KUKARONIK')">
+                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('KUKARONIK')">
                     <div class="category-icon-badge">🗝️</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
@@ -1153,7 +1212,7 @@
                 </div>
 
                 <!-- Figurki -->
-                <div class="category-card" style="background-image: url('figurki.jpg');" onclick="openCategory('Czaszka')">
+                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('Czaszka')">
                     <div class="category-icon-badge">🗿</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
@@ -1163,7 +1222,7 @@
                 </div>
 
                 <!-- Flexi Czaszki -->
-                <div class="category-card" style="background-image: url('flexi.jpg');" onclick="openCategory('Czaszka')">
+                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('Czaszka')">
                     <div class="category-icon-badge">💀</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
@@ -1173,12 +1232,12 @@
                 </div>
 
                 <!-- Gadżety -->
-                <div class="category-card" style="background-image: url('gadzety.jpg');" onclick="openCategory('KeyRambit')">
+                <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80');" onclick="openCategory('KeyRambit')">
                     <div class="category-icon-badge">✨</div>
                     <div class="category-overlay"></div>
                     <div class="category-content">
                         <div class="category-title">Gadżety 3D</div>
-                        <span class="category-count">0 produkty</span>
+                        <span class="category-count">4 produkty</span>
                     </div>
                 </div>
             </div>
@@ -1190,47 +1249,7 @@
             <h2>Nasze <span>bestsellery</span></h2>
             <p>Produkty, które klienci wybierają najczęściej</p>
 
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-badge-corner">Bestseller</div>
-                    <img src="keyrambit - czarny.png" alt="KeyRambit - Czarny" onclick="openProduct(13)">
-                    <div>
-                        <h3 onclick="openProduct(13)">KeyRambit - Czarny</h3>
-                        <div class="product-price">12,00 zł</div>
-                    </div>
-                    <button class="product-btn" onclick="openProduct(13)">🛒 Zobacz produkt</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-badge-corner">Bestseller</div>
-                    <img src="kukirin g2.png" alt="Kukirin G2" onclick="openProduct(0)">
-                    <div>
-                        <h3 onclick="openProduct(0)">Kukirin G2</h3>
-                        <div class="product-price">20,00 zł</div>
-                    </div>
-                    <button class="product-btn" onclick="openProduct(0)">🛒 Zobacz produkt</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-badge-corner">Bestseller</div>
-                    <img src="mieczyk blue.png" alt="Czaszka T-Rex" onclick="openProduct(4)">
-                    <div>
-                        <h3 onclick="openProduct(4)">Mieczyk z Minecraft</h3>
-                        <div class="product-price">9,00 zł</div>
-                    </div>
-                    <button class="product-btn" onclick="openProduct(4)">🛒 Zobacz produkt</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-badge-corner">Bestseller</div>
-                    <img src="kolko zabawka.png" alt="Złoty Spiner" onclick="openProduct(12)">
-                    <div>
-                        <h3 onclick="openProduct(12)">Złoty Spiner</h3>
-                        <div class="product-price">8,00 zł</div>
-                    </div>
-                    <button class="product-btn" onclick="openProduct(12)">🛒 Zobacz produkt</button>
-                </div>
-            </div>
+            <div class="products-grid" id="bestsellers-grid"></div>
         </section>
     </div>
 
@@ -1305,24 +1324,109 @@
         </section>
     </div>
 
-    <!-- ================= WIDOK KOSZYKA ================= -->
+    <!-- ================= WIDOK KOSZYKA I KASY ================= -->
     <div id="cart-view" class="view">
-        <section class="cart-section">
-            <div class="cart-container">
-                <h2>Twój koszyk</h2>
-                <div id="cart-content-area"></div>
+        <section class="checkout-section">
+            <div class="coupon-banner" onclick="alert('Kupon rabatowy aktywny!')">
+                Masz kupon? Kliknij tutaj, aby dodać swój kod 🎟️
+            </div>
+
+            <div class="checkout-grid">
+                <div class="checkout-col">
+                    <h3>Dane rozliczeniowe</h3>
+                    <div class="form-group">
+                        <label>Adres e-mail <span>*</span></label>
+                        <input type="email" id="c-email" placeholder="twoj@email.com">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Imię <span>*</span></label><input type="text" id="c-fname" placeholder="Imię"></div>
+                        <div class="form-group"><label>Nazwisko <span>*</span></label><input type="text" id="c-lname" placeholder="Nazwisko"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kraj / region <span>*</span></label>
+                        <select><option>Polska</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ulica i numer <span>*</span></label>
+                        <input type="text" placeholder="np. Polna 5/2">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Kod pocztowy <span>*</span></label><input type="text" placeholder="00-000"></div>
+                        <div class="form-group"><label>Miasto <span>*</span></label><input type="text" placeholder="Miasto"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Numer telefonu <span>*</span></label>
+                        <input type="tel" placeholder="+48 000 000 000">
+                    </div>
+                </div>
+
+                <div class="checkout-col">
+                    <div class="order-summary-box">
+                        <h3>Twoje zamówienie</h3>
+                        <table class="order-table" id="checkout-items-table"></table>
+
+                        <div style="margin: 20px 0; display:flex; flex-direction:column; gap:10px;">
+                            <label><input type="radio" name="shipping" value="12.95" checked onchange="calcTotal()"> InPost Paczkomat 24/7: 12,95 zł</label>
+                            <div id="paczkomat-container" style="padding-left: 20px;">
+                                <button class="paczkomat-select-btn" onclick="openMapModal()">Zmień Paczkomat</button>
+                                <div class="selected-paczkomat-info" id="selected-paczkomat-box">
+                                    Wybrany punkt: <b>CHD10M</b><br>Leśna 36, Chodzież
+                                </div>
+                            </div>
+                            <label><input type="radio" name="shipping" value="12.95" onchange="calcTotal()"> InPost Kurier: 12,95 zł</label>
+                            <label><input type="radio" name="shipping" value="24.98" onchange="calcTotal()"> InPost Kurier za pobraniem: 24,98 zł</label>
+                        </div>
+
+                        <button class="pay-btn" onclick="goToBlikView()">Przejdź do płatności BLIK →</button>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 
+    <!-- ================= STRONA PŁATNOŚCI BLIK ================= -->
+    <div id="blik-view" class="view">
+        <div class="blik-payment-box">
+            <div class="blik-logo">b<span>lik</span></div>
+            <p style="font-weight:700; color:#64748b;">Płatność za zamówienie w Kreo3D</p>
+            <div class="blik-amount-tag" id="blik-final-amount">27,95 zł</div>
+            
+            <p style="font-size:13px; font-weight:700; margin-bottom:10px;">Wpisz 6-cyfrowy kod BLIK z aplikacji bankowej:</p>
+            <input type="text" class="blik-input-code" id="blik-code-input" maxlength="6" placeholder="000 000">
+
+            <button class="blik-confirm-btn" onclick="submitBlikPayment()">Potwierdzam płatność</button>
+            <br><br>
+            <a onclick="switchView('cart')" style="font-size:12px; font-weight:800; color:#64748b; cursor:pointer;">← Anuluj i wróć do zamówienia</a>
+        </div>
+    </div>
+
+    <!-- MODAL INPOST -->
+    <div id="map-modal">
+        <div class="map-modal-content">
+            <div class="map-header">
+                <span>Wybierz paczkomat InPost</span>
+                <button class="map-close-btn" onclick="closeMapModal()">×</button>
+            </div>
+            <div id="map-box-area">
+                <h4 style="margin-bottom:10px;">Wybierz punkt odbioru:</h4>
+                <select id="paczkomat-select" style="padding:10px; width:80%; border-radius:8px; font-weight:bold;">
+                    <option value="CHD10M - Leśna 36, Chodzież">CHD10M - Leśna 36, Chodzież</option>
+                    <option value="WAW01A - Marszałkowska 10, Warszawa">WAW01A - Marszałkowska 10, Warszawa</option>
+                    <option value="POZ05B - Półwiejska 12, Poznań">POZ05B - Półwiejska 12, Poznań</option>
+                </select>
+                <button onclick="confirmPaczkomatSelect()" style="margin-top:15px; background:#ffcc00; border:none; padding:10px 20px; font-weight:bold; border-radius:8px; cursor:pointer;">Wybierz</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const products = [
-            { id: 0, name: 'Kukirin G2', price: 20.00, img: 'kukirin g2.png', subtitle: 'Kukirin G2', desc: 'Stylowy kukirin wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
+            { id: 0, name: 'KeyRambit - Midnight city', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D', desc: 'Stylowy i ergonomiczny brelok wykonany za pomocą nowoczesnej drukarki 3D Bambu Lab.' },
             { id: 1, name: 'KeyRambit - Frozen blue', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Frozen blue – brelok 3D', desc: 'Niebieska, mroźna wersja popularnego breloka KeyRambit.' },
             { id: 2, name: 'KeyRambit - Neon', price: 15.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Neon – brelok 3D', desc: 'Jaskrawa, neonowa edycja breloka KeyRambit.' },
-            { id: 3, name: 'KeyRambit - Midnight city', price: 15.00, img: 'keyrambit midnight.png', subtitle: 'KeyRambit Midnight City – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
+            { id: 3, name: 'KeyRambit - Mistyczny Fiolet', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit Mistyczny Fiolet – brelok 3D', desc: 'Ekskluzywna fioletowa wersja breloka.' },
             
-            { id: 4, name: 'Mieczyk z minecraft - niebieski', price: 9.00, img: 'Mieczyk blue.png', subtitle: 'Mieczyk Blue', desc: 'Mieczyk minecraft (brelok) wykonany z drukarki 3D bambulab' },
+            { id: 4, name: 'Czaszka T-Rex V2 - Świecący zielony', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 zielona', desc: 'Świecąca w ciemności kolekcjonerska czaszka T-Rex.' },
             { id: 5, name: 'Czaszka T-Rex V2 - Midnight city', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Midnight city', desc: 'Wersja kolorystyczna Midnight city.' },
             { id: 6, name: 'Czaszka T-Rex V2 - Storm blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Storm blue', desc: 'Sztormowy niebieski wariant czaszki.' },
             { id: 7, name: 'Czaszka T-Rex - V2 Emerald green', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex Emerald green', desc: 'Szmaragdowo zielona edycja.' },
@@ -1330,46 +1434,106 @@
             { id: 9, name: 'Czaszka T-Rex V2 - Frozen blue', price: 16.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Frozen blue', desc: 'Lodowy błękit.' },
             { id: 10, name: 'Czaszka T-Rex V2 - Galaxy blue', price: 16.00, img: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy blue', desc: 'Galaktyczny odcień niebieskiego.' },
             { id: 11, name: 'Czaszka T-Rex V2 - Świąteczny galaxy red', price: 16.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'Czaszka T-Rex V2 Galaxy red', desc: 'Świąteczna czerwień z połyskiem.' },
-            { id: 12, name: 'Złoty Spiner', price: 8, img: 'kolko zabawka.png', subtitle: 'Złoty kółko ruszające się', desc: 'Wyjątkowy gadżet w kształcie mkuli.' },
-            { id: 13, name: 'KeyRambit - Czarny', price: 12.00, img: 'keyrambit - czarny.png', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
+            { id: 12, name: 'KUKARONIK - Zielony świecący', price: 15.00, img: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', subtitle: 'KUKARONIK zielony', desc: 'Wyjątkowy gadżet w kształcie makaronika.' },
+            { id: 13, name: 'KeyRambit - Czarny', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80', subtitle: 'KeyRambit – brelok 3D czarny', desc: 'Klasyczna czarna wersja breloka KeyRambit wydrukowana precyzyjnie w technologii 3D.' }
         ];
 
-        let currentProductIndex = 0;
-        let cart = {
-            item: null,
-            qty: 1,
-            add(productIndex, quantity = 1) {
-                this.item = products[productIndex];
-                this.qty = quantity;
-                updateCartUI();
-            },
-            remove() {
-                this.item = null;
-                this.qty = 1;
-                updateCartUI();
-            },
-            changeQty(delta) {
-                this.qty += delta;
-                if(this.qty < 1) this.qty = 1;
-                updateCartUI();
-            }
-        };
+        let currentProductIndex = 13;
+        let cartItem = products[13];
+        let cartQty = 1;
+        let finalCalculatedTotal = 27.95;
 
-        function openCategory(categoryName) {
-            document.getElementById('search-view-title').innerText = `Kategoria: ${categoryName}`;
-            performSearch(categoryName);
+        function renderBestsellers() {
+            const grid = document.getElementById('bestsellers-grid');
+            const bestsellers = [products[13], products[0], products[4], products[12]];
+            grid.innerHTML = bestsellers.map(p => `
+                <div class="product-card">
+                    <div class="product-badge-corner">Bestseller</div>
+                    <img src="${p.img}" alt="${p.name}" onclick="openProduct(${p.id})">
+                    <div>
+                        <h3 onclick="openProduct(${p.id})">${p.name}</h3>
+                        <div class="product-price">${p.price.toFixed(2).replace('.', ',')} zł</div>
+                    </div>
+                    <button class="product-btn" onclick="openProduct(${p.id})">🛒 Zobacz produkt</button>
+                </div>
+            `).join('');
         }
 
         function openProduct(index) {
             currentProductIndex = index;
-            const p = products[index];
+            const p = products.find(prod => prod.id === index) || products[0];
             document.getElementById('det-img').src = p.img;
             document.getElementById('det-title').innerText = p.name;
             document.getElementById('det-price').innerText = p.price.toFixed(2).replace('.', ',');
             document.getElementById('det-subtitle').innerText = p.subtitle;
-            document.getElementById('det-desc').innerHTML = p.desc;
+            document.getElementById('det-desc').innerText = p.desc;
             document.getElementById('search-toggle').checked = false;
             switchView('product');
+        }
+
+        function addToCartCurrent() {
+            cartItem = products.find(prod => prod.id === currentProductIndex) || products[0];
+            document.getElementById('cart-badge').innerText = cartQty;
+            document.getElementById('cart-badge').classList.add('show');
+            switchView('cart');
+            renderCheckout();
+        }
+
+        function renderCheckout() {
+            const table = document.getElementById('checkout-items-table');
+            const subtotal = cartItem.price * cartQty;
+            table.innerHTML = `
+                <tr><th>Produkt</th><th>Kwota</th></tr>
+                <tr><td>${cartItem.name} × ${cartQty}</td><td>${subtotal.toFixed(2).replace('.', ',')} zł</td></tr>
+                <tr><td>Gratis × 1</td><td>0,01 zł</td></tr>
+            `;
+            calcTotal();
+        }
+
+        function calcTotal() {
+            const shippingRadio = document.querySelector('input[name="shipping"]:checked');
+            const shippingCost = shippingRadio ? parseFloat(shippingRadio.value) : 12.95;
+            const subtotal = cartItem.price * cartQty;
+            finalCalculatedTotal = subtotal + shippingCost;
+            
+            const table = document.getElementById('checkout-items-table');
+            const existingTotal = document.getElementById('checkout-total-row');
+            if(existingTotal) existingTotal.remove();
+
+            const totalRow = document.createElement('tr');
+            totalRow.id = 'checkout-total-row';
+            totalRow.innerHTML = `<td style="font-weight:900; font-size:16px;">Łącznie</td><td style="font-weight:900; font-size:16px; color:#1982e5;">${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł</td>`;
+            table.appendChild(totalRow);
+        }
+
+        function goToBlikView() {
+            document.getElementById('blik-final-amount').innerText = `${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł`;
+            switchView('blik');
+        }
+
+        function submitBlikPayment() {
+            const code = document.getElementById('blik-code-input').value.trim();
+            if(code.length !== 6) {
+                alert('Wpisz poprawny, 6-cyfrowy kod BLIK!');
+                return;
+            }
+            alert(`Płatność ${finalCalculatedTotal.toFixed(2).replace('.', ',')} zł przyjęta pomyślnie! Zamówienie w realizacji 🚀`);
+            switchView('home');
+        }
+
+        function openMapModal() {
+            document.getElementById('map-modal').style.display = 'flex';
+        }
+
+        function closeMapModal() {
+            document.getElementById('map-modal').style.display = 'none';
+        }
+
+        function confirmPaczkomatSelect() {
+            const val = document.getElementById('paczkomat-select').value;
+            const box = document.getElementById('selected-paczkomat-box');
+            box.innerHTML = `Wybrany punkt: <b>${val}</b>`;
+            closeMapModal();
         }
 
         function onLiveSearchInput(query) {
@@ -1387,7 +1551,7 @@
 
             footerText.innerText = `Szukaj „${query}”`;
 
-            let suggestions = trimmed.includes('czasz') ? ['czasz<b>ka</b>', 'czaszki'] : [trimmed];
+            let suggestions = trimmed.includes('czasz') ? ['czaszka', 'czaszki'] : [trimmed];
             suggestionsList.innerHTML = suggestions.map(s => `<div class="suggestion-item" onclick="performSearch('${trimmed}')">${s}</div>`).join('');
 
             const filtered = products.filter(p => p.name.toLowerCase().includes(trimmed));
@@ -1428,100 +1592,31 @@
                     </div>
                 `).join('');
             } else {
-                resultsContainer.innerHTML = `<div style="grid-column: span 1; padding: 20px; color: #64748b;">Brak wyników w tej kategorii.</div>`;
+                resultsContainer.innerHTML = `<div style="grid-column: span 1; padding: 20px; color: #64748b;">Brak wyników.</div>`;
             }
 
             document.getElementById('search-toggle').checked = false;
             switchView('search');
         }
 
-        function addToCartCurrent() {
-            cart.add(currentProductIndex, 1);
-            switchView('cart');
-        }
-
-        function updateCartUI() {
-            const badge = document.getElementById('cart-badge');
-            const area = document.getElementById('cart-content-area');
-
-            if (cart.item !== null) {
-                const total = cart.item.price * cart.qty;
-                const missingForFreeShipping = Math.max(0, 100 - total);
-                const progressPercent = Math.min(100, (total / 100) * 100);
-
-                badge.innerText = cart.qty;
-                badge.classList.add('show');
-
-                area.innerHTML = `
-                    <div class="cart-item-card">
-                        <div class="cart-item-left">
-                            <img src="${cart.item.img}" alt="Produkt">
-                            <div>
-                                <div class="cart-item-title">${cart.item.name}</div>
-                                <div class="cart-item-price">${cart.item.price.toFixed(2).replace('.', ',')} zł</div>
-                                <div class="quantity-controls">
-                                    <button onclick="cart.changeQty(-1)">-</button>
-                                    <span>${cart.qty}</span>
-                                    <button onclick="cart.changeQty(1)">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="cart-trash-btn" onclick="cart.remove()" title="Usuń">🗑️</button>
-                    </div>
-
-                    <div class="cart-shipping-notice">
-                        ${missingForFreeShipping > 0 ? `Brakuje Ci ${missingForFreeShipping.toFixed(2).replace('.', ',')} zł do darmowej dostawy 🚚` : `Gratulacje! Masz darmową dostawę! 🚚🎉`}
-                    </div>
-                    <div class="cart-progress-bar-bg">
-                        <div class="cart-progress-bar-fill" style="width: ${progressPercent}%;"></div>
-                    </div>
-
-                    <div style="text-align: left;">
-                        <a class="back-link" onclick="switchView('home')">← Kontynuuj zakupy</a>
-                    </div>
-
-                    <div class="cart-bottom-row">
-                        <div class="paczkomat-box">
-                            <label>📦 Twój Paczkomat InPost:</label>
-                            <input type="text" placeholder="np. WAW123M">
-                        </div>
-                        <div class="cart-total-box">
-                            <div class="cart-total-title">Razem: ${total.toFixed(2).replace('.', ',')} zł</div>
-                            <div class="cart-total-sub">Z wliczonymi podatkami.</div>
-                            <button class="checkout-btn">Idź do kasy →</button>
-                        </div>
-                    </div>
-                `;
-            } else {
-                badge.classList.remove('show');
-                area.innerHTML = `
-                    <div class="empty-cart-msg">Twój koszyk jest pusty.</div>
-                    <div style="margin-top: 15px;">
-                        <button class="hero-btn" onclick="switchView('home')" style="color: #1982e5;">Wróć do sklepu</button>
-                    </div>
-                `;
-            }
+        function openCategory(categoryName) {
+            document.getElementById('search-view-title').innerText = `Kategoria: ${categoryName}`;
+            performSearch(categoryName);
         }
 
         function switchView(viewName) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-            
             setTimeout(() => {
-                if(viewName === 'home') {
-                    document.getElementById('home-view').classList.add('active-view');
-                } else if(viewName === 'search') {
-                    document.getElementById('search-view').classList.add('active-view');
-                } else if(viewName === 'product') {
-                    document.getElementById('product-view').classList.add('active-view');
-                } else if(viewName === 'cart') {
-                    document.getElementById('cart-view').classList.add('active-view');
-                    updateCartUI();
-                }
+                if(viewName === 'home') document.getElementById('home-view').classList.add('active-view');
+                if(viewName === 'search') document.getElementById('search-view').classList.add('active-view');
+                if(viewName === 'product') document.getElementById('product-view').classList.add('active-view');
+                if(viewName === 'cart') { document.getElementById('cart-view').classList.add('active-view'); renderCheckout(); }
+                if(viewName === 'blik') document.getElementById('blik-view').classList.add('active-view');
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }, 50);
         }
 
-        updateCartUI();
+        renderBestsellers();
         onLiveSearchInput('');
     </script>
 </body>
